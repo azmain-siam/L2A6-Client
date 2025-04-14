@@ -60,7 +60,7 @@ const Featured = () => {
           <p className="max-w-[700px] text-muted-foreground md:text-xl">
             Check out these popular items from our marketplace
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-second rounded-full"></div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
           {featuredProducts.map((product) => (
@@ -75,8 +75,8 @@ const Featured = () => {
                   />
                   <div className="absolute top-2 right-2">
                     <Badge
-                      variant="secondary"
-                      className="bg-secondary/90 hover:bg-secondary text-white"
+                      variant="default"
+                      // className="bg-primary-second/90 hover:bg-primary-second text-white"
                     >
                       {product.condition}
                     </Badge>

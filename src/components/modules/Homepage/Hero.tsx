@@ -58,9 +58,7 @@ const Hero = () => {
             </div>
             <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-secondary/20 backdrop-blur-md p-2 animate-float">
               <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
-                <span className="text-xl font-bold">
-                  50%
-                </span>
+                <span className="text-xl font-bold">50%</span>
               </div>
             </div>
             <div

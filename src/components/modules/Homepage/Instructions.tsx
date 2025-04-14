@@ -38,10 +38,10 @@ const Instructions = () => {
             </p>
           </div>
           <div className="flex flex-col items-center text-center space-y-4 card-hover bg-background rounded-xl p-6 shadow-lg relative z-10">
-            <div className="bg-gradient-to-br from-secondary to-secondary/80 p-4 rounded-full text-white mb-2">
+            <div className="bg-gradient-to-br from-primary-second to-primary-second/80 p-4 rounded-full text-white mb-2">
               <TrendingUp className="h-8 w-8" />
             </div>
-            <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-white font-bold shadow-md">
+            <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary-second text-white font-bold shadow-md">
               2
             </div>
             <h3 className="text-xl font-bold">List or Browse</h3>
@@ -51,10 +51,10 @@ const Instructions = () => {
             </p>
           </div>
           <div className="flex flex-col items-center text-center space-y-4 card-hover bg-background rounded-xl p-6 shadow-lg relative z-10">
-            <div className="bg-gradient-to-br from-primary to-secondary p-4 rounded-full text-white mb-2">
+            <div className="bg-gradient-to-br from-primary to-primary-second p-4 rounded-full text-white mb-2">
               <Check className="h-8 w-8" />
             </div>
-            <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-white font-bold shadow-md">
+            <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-second text-white font-bold shadow-md">
               3
             </div>
             <h3 className="text-xl font-bold">Complete Transactions</h3>
