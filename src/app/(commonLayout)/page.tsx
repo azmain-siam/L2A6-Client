@@ -1,9 +1,19 @@
-import Home from "@/components/modules/Homepage/Homepage";
+import CtaSection from "@/components/modules/Homepage/CtaSection";
+import Featured from "@/components/modules/Homepage/Featured";
+import Hero from "@/components/modules/Homepage/Hero";
+import Instructions from "@/components/modules/Homepage/Instructions";
+import Trust from "@/components/modules/Homepage/Trust";
 
-export default function Homepage() {
+const Homepage = () => {
   return (
-    <>
-      <Home/>
-    </>
+    <div className="md:-mt-16">
+      <Hero />
+      <Trust />
+      <Featured />
+      <Instructions />
+      <CtaSection />
+    </div>
   );
-}
+};
+
+export default Homepage;
