@@ -9,7 +9,7 @@ const Instructions = () => {
     <section className="w-full py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 pattern-dots opacity-30"></div>
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5"></div>
-      <div className="container px-4 md:px-6 relative">
+      <div className="container px-4 md:px-6 relative mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <Badge className="bg-primary hover:bg-primary/80" variant="default">
             How It Works

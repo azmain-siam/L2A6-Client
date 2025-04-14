@@ -3,7 +3,7 @@ import { Check, CreditCard, Shield, Truck } from "lucide-react";
 const Trust = () => {
   return (
     <section className="w-full py-8 bg-muted/50">
-      <div className="container px-4 md:px-6">
+      <div className="container px-4 md:px-6 mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 items-center justify-center">
           <div className="flex flex-col items-center text-center space-y-2">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
