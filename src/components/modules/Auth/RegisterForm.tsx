@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import { Eye, EyeOff, Loader2, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { registerValidationSchema } from "./validation/registerValidation";
+import { registerUser } from "@/services/AuthService";
 
 const RegisterForm = ({
   showPassword,
@@ -42,8 +44,13 @@ const RegisterForm = ({
   const password = form.watch("password");
   const confirmPass = form.watch("confirmPassword");
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await registerUser(data);
+      console.log(res);
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (
