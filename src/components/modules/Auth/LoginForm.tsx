@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Facebook, Github, Loader2, Mail } from "lucide-react";
-import Link from "next/link";
+import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
 import React from "react";
 
 const LoginForm = ({
@@ -32,7 +31,7 @@ const LoginForm = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-3 gap-4">
+        {/* <div className="grid grid-cols-3 gap-4">
           <Button variant="outline" className="w-full">
             <Facebook className="h-4 w-4 mr-2" />
             <span className="sr-only sm:not-sr-only sm:text-xs">Facebook</span>
@@ -45,7 +44,7 @@ const LoginForm = ({
             <Mail className="h-4 w-4 mr-2" />
             <span className="sr-only sm:not-sr-only sm:text-xs">Google</span>
           </Button>
-        </div>
+        </div> */}
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
@@ -53,7 +52,7 @@ const LoginForm = ({
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              Continue with
             </span>
           </div>
         </div>
@@ -72,12 +71,12 @@ const LoginForm = ({
           </div>
         </div>
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
             <Link href="#" className="text-xs text-primary hover:underline">
               Forgot password?
             </Link>
-          </div>
+          </div> */}
           <div className="relative">
             <Input
               id="password"
@@ -117,7 +116,7 @@ const LoginForm = ({
       <CardFooter>
         <Button
           type="submit"
-          className="w-full rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transition-all"
+          className="w-full rounded-full bg-gradient-to-r cursor-pointer from-primary to-primary-second hover:from-primary/80 hover:to-primary-second/80 duration-300"
           disabled={isLoading}
         >
           {isLoading ? (

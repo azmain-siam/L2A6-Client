@@ -22,19 +22,19 @@ export default function LoginPage() {
     }, 1500);
   };
 
-  const handleSignup = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // const handleSignup = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
 
-    // Simulate signup process
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/dashboard");
-    }, 1500);
-  };
+  //   // Simulate signup process
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     router.push("/dashboard");
+  //   }, 1500);
+  // };
 
   return (
-    <div className="container flex items-center justify-center min-h-[calc(100vh-16rem)] py-12 relative">
+    <div className="flex items-center justify-center min-h-[calc(100vh-16rem)] py-12 relative mx-auto">
       <div className="absolute inset-0 pattern-dots opacity-30"></div>
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5"></div>
 
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
             <TabsContent value="signup">
               <RegisterForm
-                handleSignup={handleSignup}
+                // handleSignup={handleSignup}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
                 isLoading={isLoading}
