@@ -7,20 +7,9 @@ import LoginForm from "@/components/modules/Auth/LoginForm";
 import RegisterForm from "@/components/modules/Auth/RegisterForm";
 
 export default function LoginPage() {
-  const router = useRouter();
+  // const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/dashboard");
-    }, 1500);
-  };
 
   // const handleSignup = (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -59,7 +48,6 @@ export default function LoginPage() {
 
             <TabsContent value="login">
               <LoginForm
-                handleLogin={handleLogin}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
                 isLoading={isLoading}
