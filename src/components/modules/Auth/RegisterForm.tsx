@@ -27,19 +27,22 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { registerValidationSchema } from "./validation/registerValidation";
 import { registerUser } from "@/services/AuthService";
+import { toast } from "sonner";
 
 const RegisterForm = ({
   showPassword,
   setShowPassword,
-  isLoading,
 }: {
   showPassword: boolean;
   setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoading: boolean;
 }) => {
   const form = useForm({
     resolver: zodResolver(registerValidationSchema),
   });
+
+  const {
+    formState: { isSubmitting },
+  } = form;
 
   const password = form.watch("password");
   const confirmPass = form.watch("confirmPassword");
@@ -47,7 +50,11 @@ const RegisterForm = ({
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
-      console.log(res);
+      if (res.status === 201) {
+        toast.success("User registration successful");
+      } else if (res.error) {
+        toast.error(res.message);
+      }
     } catch (error: any) {
       console.error(error);
     }
@@ -99,7 +106,11 @@ const RegisterForm = ({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name" {...field} />
+                  <Input
+                    placeholder="Name"
+                    {...field}
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormDescription />
                 <FormMessage />
@@ -119,6 +130,7 @@ const RegisterForm = ({
                       className="pl-10"
                       placeholder="name@example.com"
                       {...field}
+                      value={field.value || ""}
                     />
                     <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   </div>
@@ -140,6 +152,7 @@ const RegisterForm = ({
                       className="pl-10"
                       placeholder="Phone number"
                       {...field}
+                      value={field.value || ""}
                     />
                     <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   </div>
@@ -158,10 +171,13 @@ const RegisterForm = ({
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <div className="relative">
+                      {/* <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /> */}
                       <Input
+                        // className="pl-8"
                         type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         {...field}
+                        value={field.value || ""}
                       />{" "}
                       <Button
                         type="button"
@@ -199,6 +215,7 @@ const RegisterForm = ({
                         type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         {...field}
+                        value={field.value || ""}
                       />{" "}
                       <Button
                         type="button"
@@ -247,9 +264,9 @@ const RegisterForm = ({
           <Button
             type="submit"
             className="w-full rounded-full bg-gradient-to-r from-primary to-primary-second hover:from-primary/80 hover:to-primary-second/80 duration-300 cursor-pointer"
-            disabled={isLoading}
+            disabled={isSubmitting}
           >
-            {isLoading ? (
+            {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Creating account...

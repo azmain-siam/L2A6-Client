@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/modules/Auth/LoginForm";
@@ -8,19 +7,7 @@ import RegisterForm from "@/components/modules/Auth/RegisterForm";
 
 export default function LoginPage() {
   // const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // const handleSignup = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-
-  //   // Simulate signup process
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //     router.push("/dashboard");
-  //   }, 1500);
-  // };
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-16rem)] py-12 relative mx-auto">
@@ -50,7 +37,6 @@ export default function LoginPage() {
               <LoginForm
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
-                isLoading={isLoading}
               />
             </TabsContent>
 
@@ -59,7 +45,6 @@ export default function LoginPage() {
                 // handleSignup={handleSignup}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
-                isLoading={isLoading}
               />
             </TabsContent>
           </Tabs>

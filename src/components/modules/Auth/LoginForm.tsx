@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -17,23 +18,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { loginValidationSchema } from "./validation/loginValidation";
+import { loginUser } from "@/services/AuthService";
+import { toast } from "sonner";
 
 const LoginForm = ({
   showPassword,
   setShowPassword,
-  isLoading,
 }: {
   showPassword: boolean;
   setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoading: boolean;
 }) => {
-  const form = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const form = useForm({
+    resolver: zodResolver(loginValidationSchema),
+  });
+
+  const {
+    formState: { isSubmitting },
+  } = form;
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await loginUser(data);
+
+      if (res.status === 200) {
+        toast.success("Login successful");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -90,6 +108,7 @@ const LoginForm = ({
                         className="pl-10"
                         placeholder="name@example.com"
                         {...field}
+                        value={field.value || ""}
                       />
                       <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     </div>
@@ -112,7 +131,8 @@ const LoginForm = ({
                         type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         {...field}
-                      />{" "}
+                        value={field.value || ""}
+                      />
                       <Button
                         type="button"
                         variant="ghost"
@@ -138,10 +158,9 @@ const LoginForm = ({
             />
           </div>
           <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
+            <Checkbox
               id="remember"
-              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              // className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
             />
             <Label htmlFor="remember" className="text-sm font-normal">
               Remember me
@@ -152,9 +171,9 @@ const LoginForm = ({
           <Button
             type="submit"
             className="w-full rounded-full bg-gradient-to-r cursor-pointer from-primary to-primary-second hover:from-primary/80 hover:to-primary-second/80 duration-300"
-            disabled={isLoading}
+            disabled={isSubmitting}
           >
-            {isLoading ? (
+            {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Logging in...
