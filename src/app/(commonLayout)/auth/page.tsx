@@ -39,8 +39,8 @@ export default function LoginPage() {
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5"></div>
 
       <div className="w-full max-w-md mx-auto relative">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-30"></div>
-        <Card className="w-full relative bg-background/95 backdrop-blur-sm shadow-xl border-0">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-primary-second rounded-2xl blur opacity-30"></div>
+        <Card className="w-full relative bg-background/95 backdrop-blur-sm shadow-lg border-0">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4 rounded-t-lg bg-muted/50">
               <TabsTrigger
