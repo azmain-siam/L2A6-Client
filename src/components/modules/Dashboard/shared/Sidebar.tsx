@@ -1,61 +1,64 @@
+"use client";
+
 import {
-  Calendar,
+  DollarSign,
   Home,
   PackagePlus,
-  Search,
-  Settings,
   ShoppingBag,
+  ShoppingCart,
+  UserRound,
 } from "lucide-react";
-
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  // SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 
-// Menu items.
+// Menu items
 const items = [
   {
     title: "Dashboard",
     url: "/dashboard",
     icon: Home,
   },
-  // {
-  //   title: "Manage Listings",
-
-  //   icon: ShoppingBag,
-  //   children: [
-  //     {
-  //       title: "Add Listing",
-  //       url: "/dashboard/addListing",
-  //       icon: PackagePlus,
-  //     },
-  //   ],
-  // },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Manage Listings",
+    icon: ShoppingBag,
+    url: "/dashboard/manageListing",
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Add Listing",
+    url: "/dashboard/addListing",
+    icon: PackagePlus,
   },
   {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Track Purchases",
+    url: "/dashboard/purchases",
+    icon: ShoppingCart,
+  },
+  {
+    title: "Track Sales",
+    url: "/dashboard/sales",
+    icon: DollarSign,
+  },
+  {
+    title: "Profile",
+    url: "/dashboard/profile",
+    icon: UserRound,
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
+  const isActive = (url?: string) => pathname === url;
+
   return (
     <Sidebar>
       <SidebarContent className="p-2">
@@ -64,13 +67,21 @@ export function AppSidebar() {
             <ShoppingBag className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">SwapSpot</span>
           </Link>
+
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton className="py-5" asChild>
-                    <Link href={item.url} className="py-4">
-                      <item.icon />
+                  <SidebarMenuButton className="py-3" asChild>
+                    <Link
+                      href={item.url ?? "#"}
+                      className={`flex items-center gap-2 rounded-md px-2 py-2 ${
+                        isActive(item.url)
+                          ? "bg-muted text-primary hover:text-primary font-medium"
+                          : "text-foreground hover:text-primary"
+                      }`}
+                    >
+                      <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
