@@ -54,3 +54,7 @@ export const getCurrentUser = async () => {
     return decodedData;
   }
 };
+
+export const logout = async () => {
+  (await cookies()).delete("accessToken");
+};

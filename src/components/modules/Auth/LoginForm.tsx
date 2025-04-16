@@ -25,6 +25,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { loginValidationSchema } from "./validation/loginValidation";
 import { loginUser } from "@/services/AuthService";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginForm = ({
   showPassword,
@@ -36,6 +37,7 @@ const LoginForm = ({
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
   });
+  const router = useRouter();
 
   const {
     formState: { isSubmitting },
@@ -46,6 +48,7 @@ const LoginForm = ({
 
       if (res.status === 200) {
         toast.success("Login successful");
+        router.push("/");
       }
     } catch (error) {
       console.error(error);
