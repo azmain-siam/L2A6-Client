@@ -22,15 +22,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import listingValidationSchema from "./validation/listingValidation";
 
 export default function ProductForm() {
-  const form = useForm();
+  const form = useForm({
+    resolver: zodResolver(listingValidationSchema),
+  });
   const [images, setImages] = useState<string[]>([]);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+  };
 
   return (
     <Form {...form}>
-      <form className="space-y-5 max-w-xl mx-auto border rounded-md p-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5 max-w-xl mx-auto border rounded-md p-5"
+      >
         <FormField
           control={form.control}
           name="title"
@@ -96,7 +107,7 @@ export default function ProductForm() {
             <FormItem>
               <FormLabel>Condition</FormLabel>
               <FormControl>
-                <Select {...field} value={field.value || ""}>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Condition" />
                   </SelectTrigger>
