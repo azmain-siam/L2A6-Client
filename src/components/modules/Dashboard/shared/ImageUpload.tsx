@@ -1,19 +1,23 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
-import { ImageUpIcon } from "lucide-react";
+import { ImageUpIcon, X } from "lucide-react";
 
 interface ImageUploadProps {
-  images: File[] | [];
+  // images: File[] | [];
   setImages: Dispatch<SetStateAction<[] | File[]>>;
+  previewImages: string[] | [];
+  setPreviewImages: Dispatch<SetStateAction<[] | string[]>>;
 }
 
-export default function ImageUpload({ setImages }: ImageUploadProps) {
-  const [previewImages, setPreviewImages] = useState<string[] | []>([]);
-
+export default function ImageUpload({
+  setImages,
+  previewImages,
+  setPreviewImages,
+}: ImageUploadProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files![0];
     if (!files) return;
@@ -23,6 +27,11 @@ export default function ImageUpload({ setImages }: ImageUploadProps) {
     setImages((prev) => [...prev, files]);
 
     setPreviewImages((prev) => [...prev, fileURL]);
+  };
+
+  const handleRemove = (index: number) => {
+    setImages((prev) => prev.filter((_, idx) => idx !== index));
+    setPreviewImages((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   return (
@@ -48,14 +57,22 @@ export default function ImageUpload({ setImages }: ImageUploadProps) {
       </Label>
       <div className="flex gap-2 flex-wrap">
         {previewImages.map((preview, index) => (
-          <Image
-            key={index}
-            src={preview}
-            alt={`Preview ${index}`}
-            width={500}
-            height={500}
-            className="h-20 w-20 rounded object-cover border"
-          />
+          <div key={index} className="relative">
+            <Image
+              src={preview}
+              alt={`Preview ${index}`}
+              width={500}
+              height={500}
+              className="h-24 w-24 rounded object-cover border"
+            />
+
+            <button
+              onClick={() => handleRemove(index)}
+              className="size-6 rounded-full bg-primary flex justify-center items-center absolute right-0 top-0 cursor-pointer"
+            >
+              <X className="!size-5 text-white" />
+            </button>
+          </div>
         ))}
       </div>
     </div>

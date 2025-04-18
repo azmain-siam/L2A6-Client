@@ -25,17 +25,49 @@ import {
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import listingValidationSchema from "./validation/listingValidation";
+import { useUser } from "@/context/UserContext";
+import useAxios from "@/hooks/globalAxiosURL";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export default function ProductForm() {
   const form = useForm({
     resolver: zodResolver(listingValidationSchema),
   });
+  const {
+    formState: { isSubmitting },
+    reset,
+  } = form;
+  const axios = useAxios();
+  const { user } = useUser();
   const [images, setImages] = useState<File[] | []>([]);
-  console.log(images, "images");
+  const [previewImages, setPreviewImages] = useState<string[] | []>([]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    console.log(images);
+    try {
+      const modifiedData = {
+        ...data,
+        price: Number(data.price),
+        userId: user?.id,
+      };
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(modifiedData));
+
+      images.forEach((image) => {
+        formData.append("file", image as File);
+      });
+      const { data: response } = await axios.post("/listings", formData);
+
+      if (response.status === 201) {
+        toast.success(response.message);
+        reset();
+        setImages([]);
+        setPreviewImages([]);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
@@ -128,11 +160,26 @@ export default function ProductForm() {
 
         <div>
           <Label className="mb-2">Images</Label>
-          <ImageUpload images={images} setImages={setImages} />
+          <ImageUpload
+            previewImages={previewImages}
+            setPreviewImages={setPreviewImages}
+            setImages={setImages}
+          />
         </div>
 
-        <Button type="submit" className="w-full">
-          Submit Product
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full cursor-pointer"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Adding product...
+            </>
+          ) : (
+            "Add Product"
+          )}
         </Button>
       </form>
     </Form>
