@@ -30,10 +30,12 @@ export default function ProductForm() {
   const form = useForm({
     resolver: zodResolver(listingValidationSchema),
   });
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[] | []>([]);
+  console.log(images, "images");
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
+    console.log(images);
   };
 
   return (
@@ -126,7 +128,7 @@ export default function ProductForm() {
 
         <div>
           <Label className="mb-2">Images</Label>
-          <ImageUpload images={images} onChange={setImages} />
+          <ImageUpload images={images} setImages={setImages} />
         </div>
 
         <Button type="submit" className="w-full">

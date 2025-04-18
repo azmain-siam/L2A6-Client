@@ -1,31 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
+import { ImageUpIcon } from "lucide-react";
 
 interface ImageUploadProps {
-  images: string[];
-  onChange: (urls: string[]) => void;
+  images: File[] | [];
+  setImages: Dispatch<SetStateAction<[] | File[]>>;
 }
 
-export default function ImageUpload({ images, onChange }: ImageUploadProps) {
-  const [previewImages, setPreviewImages] = useState(images || []);
+export default function ImageUpload({ setImages }: ImageUploadProps) {
+  const [previewImages, setPreviewImages] = useState<string[] | []>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+    const files = e.target.files![0];
     if (!files) return;
 
-    const newImages: string[] = [];
+    const fileURL = URL.createObjectURL(files);
 
-    for (let i = 0; i < files.length; i++) {
-      const fileURL = URL.createObjectURL(files[i]);
-      newImages.push(fileURL);
-    }
+    setImages((prev) => [...prev, files]);
 
-    const updatedImages = [...previewImages, ...newImages];
-    setPreviewImages(updatedImages);
-    onChange(updatedImages);
+    setPreviewImages((prev) => [...prev, fileURL]);
   };
 
   return (
@@ -34,13 +31,26 @@ export default function ImageUpload({ images, onChange }: ImageUploadProps) {
         type="file"
         accept="image/*"
         multiple
+        className="hidden"
         onChange={handleImageChange}
+        id="image-uploader"
       />
+      <Label
+        htmlFor="image-uploader"
+        className="w-full h-36 border-2 rounded-lg border-dashed flex flex-col justify-center text-base cursor-pointer hover:bg-primary-foreground"
+      >
+        <ImageUpIcon className="!size-10" />
+        <div>
+          <span>Drag and drop</span>
+          <span className="text-primary"> or browse</span>{" "}
+          <span>to upload</span>
+        </div>
+      </Label>
       <div className="flex gap-2 flex-wrap">
-        {previewImages.map((src, index) => (
+        {previewImages.map((preview, index) => (
           <Image
             key={index}
-            src={src}
+            src={preview}
             alt={`Preview ${index}`}
             width={500}
             height={500}
