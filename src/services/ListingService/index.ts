@@ -17,3 +17,13 @@ export const addListing = async (data: FormData) => {
     return Error(error);
   }
 };
+
+export const getListings = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`);
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

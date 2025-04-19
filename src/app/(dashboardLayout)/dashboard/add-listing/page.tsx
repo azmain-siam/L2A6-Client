@@ -4,7 +4,7 @@ import DashHeading from "@/components/ui/DashHeading";
 const AddListingPage = () => {
   return (
     <div>
-      <DashHeading title="Add Listings" />
+      <DashHeading>Add Listings</DashHeading>
       <div>
         <ProductForm />
       </div>
