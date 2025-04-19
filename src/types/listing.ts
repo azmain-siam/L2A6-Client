@@ -1,4 +1,5 @@
 export interface IListing {
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -7,4 +8,3 @@ export interface IListing {
   userId: string;
   status: "available" | "sold";
 }
-

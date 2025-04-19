@@ -1,8 +1,9 @@
-import { DataTable } from "@/components/ui/core/data-table";
 import DashHeading from "@/components/ui/DashHeading";
 import { getListings } from "@/services/ListingService";
-import React from "react";
-import { columns } from "@/components/modules/Products/TableColumns";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import ListingTable from "@/components/modules/Products/ListingTable";
 
 const ManageListingPage = async () => {
   const { data } = await getListings();
@@ -12,7 +13,14 @@ const ManageListingPage = async () => {
       <DashHeading>Manage Listings</DashHeading>
 
       <div>
-        <DataTable columns={columns} data={data} />
+        <div className="text-right mb-4">
+          <Link href={"/dashboard/add-listing"}>
+            <Button variant={"default"} className="cursor-pointer">
+              Add Listings <Plus className="!size-4 !text-white" />
+            </Button>
+          </Link>
+        </div>
+        <ListingTable data={data} />
       </div>
     </div>
   );

@@ -20,9 +20,30 @@ export const addListing = async (data: FormData) => {
 
 export const getListings = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
+      // next: {
+      //   tags: ["LISTING"],
+      // },
+    });
 
     return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const deleteListing = async (id: string) => {
+  try {
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    console.log(result);
+    return result;
+    // return await res.json();
   } catch (error: any) {
     return Error(error);
   }
