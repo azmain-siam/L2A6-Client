@@ -1,31 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
+import { ImageUpIcon, X } from "lucide-react";
 
 interface ImageUploadProps {
-  images: string[];
-  onChange: (urls: string[]) => void;
+  // images: File[] | [];
+  setImages: Dispatch<SetStateAction<[] | File[]>>;
+  previewImages: string[] | [];
+  setPreviewImages: Dispatch<SetStateAction<[] | string[]>>;
 }
 
-export default function ImageUpload({ images, onChange }: ImageUploadProps) {
-  const [previewImages, setPreviewImages] = useState(images || []);
-
+export default function ImageUpload({
+  setImages,
+  previewImages,
+  setPreviewImages,
+}: ImageUploadProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+    const files = e.target.files![0];
     if (!files) return;
 
-    const newImages: string[] = [];
+    const fileURL = URL.createObjectURL(files);
 
-    for (let i = 0; i < files.length; i++) {
-      const fileURL = URL.createObjectURL(files[i]);
-      newImages.push(fileURL);
-    }
+    setImages((prev) => [...prev, files]);
 
-    const updatedImages = [...previewImages, ...newImages];
-    setPreviewImages(updatedImages);
-    onChange(updatedImages);
+    setPreviewImages((prev) => [...prev, fileURL]);
+  };
+
+  const handleRemove = (index: number) => {
+    setImages((prev) => prev.filter((_, idx) => idx !== index));
+    setPreviewImages((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   return (
@@ -34,18 +40,39 @@ export default function ImageUpload({ images, onChange }: ImageUploadProps) {
         type="file"
         accept="image/*"
         multiple
+        className="hidden"
         onChange={handleImageChange}
+        id="image-uploader"
       />
+      <Label
+        htmlFor="image-uploader"
+        className="w-full h-36 border-2 rounded-lg border-dashed flex flex-col justify-center text-base cursor-pointer hover:bg-primary-foreground"
+      >
+        <ImageUpIcon className="!size-10" />
+        <div>
+          <span>Drag and drop</span>
+          <span className="text-primary"> or browse</span>{" "}
+          <span>to upload</span>
+        </div>
+      </Label>
       <div className="flex gap-2 flex-wrap">
-        {previewImages.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`Preview ${index}`}
-            width={500}
-            height={500}
-            className="h-20 w-20 rounded object-cover border"
-          />
+        {previewImages.map((preview, index) => (
+          <div key={index} className="relative">
+            <Image
+              src={preview}
+              alt={`Preview ${index}`}
+              width={500}
+              height={500}
+              className="h-24 w-24 rounded object-cover border"
+            />
+
+            <button
+              onClick={() => handleRemove(index)}
+              className="size-6 rounded-full bg-primary flex justify-center items-center absolute right-0 top-0 cursor-pointer"
+            >
+              <X className="!size-5 text-white" />
+            </button>
+          </div>
         ))}
       </div>
     </div>

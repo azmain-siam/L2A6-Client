@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -27,13 +26,21 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import listingValidationSchema from "./validation/listingValidation";
 import { useUser } from "@/context/UserContext";
-import useAxios from "@/hooks/globalAxiosURL";
+// import useAxios from "@/hooks/globalAxiosURL";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { IListing } from "@/types/listing";
+import useAxios from "@/hooks/globalAxiosURL";
 
-export default function ProductForm() {
+export default function UpdateProductForm({ listing }: { listing: IListing }) {
   const form = useForm({
     resolver: zodResolver(listingValidationSchema),
+    defaultValues: {
+      title: listing?.title || "",
+      description: listing?.description || "",
+      price: listing?.price || undefined,
+      condition: listing?.condition || "",
+    },
   });
   const {
     formState: { isSubmitting },
@@ -51,27 +58,33 @@ export default function ProductForm() {
         price: Number(data.price),
         userId: user?.id,
       };
+
+      // console.log(modifiedData);
       const formData = new FormData();
       formData.append("data", JSON.stringify(modifiedData));
 
       images.forEach((image) => {
         formData.append("file", image as File);
       });
-      const { data: response } = await axios.post("/listings", formData);
-      // console.log(response, "response");
+
+      const { data: response } = await axios.put(
+        `/listings/${listing._id}`,
+        formData
+      );
+      // const response = await updateListing(formData, listing._id);
+      console.log(response);
       if (response.status === 201) {
         toast.success(response.message);
         reset();
         setImages([]);
         setPreviewImages([]);
       }
-    } catch (error: any) {
-      // console.log(error);
-      if (error?.status === 400) {
-        toast.error(error?.response?.data?.message);
-      } else {
-        toast.error("Something went wrong!");
-      }
+    } catch (error) {
+      // if(error.){
+
+      // }
+      console.log(error);
+      toast.error("Something went wrong!");
     }
   };
 
@@ -130,7 +143,7 @@ export default function ProductForm() {
                   type="number"
                   placeholder="Price"
                   {...field}
-                  value={field.value || ""}
+                  value={`${field.value}` || ""}
                 />
               </FormControl>
               <FormDescription />
@@ -180,10 +193,10 @@ export default function ProductForm() {
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Adding product...
+              Updating product info...
             </>
           ) : (
-            "Add Product"
+            "Update Product Info"
           )}
         </Button>
       </form>
