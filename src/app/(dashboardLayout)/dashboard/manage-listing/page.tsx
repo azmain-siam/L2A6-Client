@@ -3,7 +3,7 @@ import { getListings } from "@/services/ListingService";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import ListingTable from "@/components/modules/Products/ListingTable";
+import ListingTable from "@/components/modules/Dashboard/Products/ListingTable";
 
 const ManageListingPage = async () => {
   const { data } = await getListings();
