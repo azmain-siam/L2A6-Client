@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -57,16 +58,20 @@ export default function ProductForm() {
         formData.append("file", image as File);
       });
       const { data: response } = await axios.post("/listings", formData);
-
+      // console.log(response, "response");
       if (response.status === 201) {
         toast.success(response.message);
         reset();
         setImages([]);
         setPreviewImages([]);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong!");
+    } catch (error: any) {
+      // console.log(error);
+      if (error?.status === 400) {
+        toast.error(error?.response?.data?.message);
+      } else {
+        toast.error("Something went wrong!");
+      }
     }
   };
 

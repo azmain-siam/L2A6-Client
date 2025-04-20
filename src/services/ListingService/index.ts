@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+import axios from "axios";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const addListing = async (data: FormData) => {
@@ -21,14 +23,15 @@ export const addListing = async (data: FormData) => {
 export const getListings = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-      // next: {
-      //   tags: ["LISTING"],
-      // },
+      next: {
+        tags: ["LISTING"],
+      },
     });
 
-    return res.json();
+    const data = await res.json();
+    return data;
   } catch (error: any) {
-    return Error(error);
+    return Error(error.message);
   }
 };
 
@@ -61,8 +64,6 @@ export const updateListing = async (
       }
     );
 
-    console.log(res.text(), "response");
-
     return res.json();
   } catch (error: any) {
     return Error(error);
@@ -71,16 +72,13 @@ export const updateListing = async (
 
 export const deleteListing = async (id: string) => {
   try {
-    const result = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
-      {
-        method: "DELETE",
-      }
+    const result = await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`
     );
 
-    console.log(result);
-    return result;
-    // return await res.json();
+    revalidateTag("LISTING");
+
+    return result.status;
   } catch (error: any) {
     return Error(error);
   }
