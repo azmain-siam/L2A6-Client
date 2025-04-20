@@ -8,8 +8,7 @@ import React from "react";
 const PurchasePage = async () => {
   const user: IUser = await getCurrentUser();
   const { data } = await getAllPurchases(user.id);
-
-  console.log(data);
+  
   return (
     <div>
       <DashHeading>My Purchases</DashHeading>
