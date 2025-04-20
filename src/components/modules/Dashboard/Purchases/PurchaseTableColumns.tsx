@@ -1,13 +1,9 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { WarningModal } from "@/components/ui/core/WarningModal";
-import { IListing } from "@/types/listing";
 import { ITransaction } from "@/types/transaction";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 // type ListingColumnProps = {
 //   onDelete: (id: string) => void;
