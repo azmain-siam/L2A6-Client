@@ -32,6 +32,43 @@ export const getListings = async () => {
   }
 };
 
+export const getSingleListing = async (productId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${productId}`
+    );
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateListing = async (
+  data: FormData,
+  id: string
+): Promise<any> => {
+  try {
+    console.log(data, "data");
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+      {
+        method: "PUT",
+        body: data,
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
+
+    console.log(res.text(), "response");
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const deleteListing = async (id: string) => {
   try {
     const result = await fetch(
