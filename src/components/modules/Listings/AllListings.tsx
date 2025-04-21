@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useGetAllProductsQuery } from "@/redux/features/products/productsApi";
-import ProductCard from "@/components/productsPage/ProductCard";
-import FilterSidebar from "@/components/productsPage/FilterSidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getListings } from "@/services/ListingService";
+import ProductCard from "./ProductCard";
+import { IListing } from "@/types/listing";
+import FilterSidebar from "./FilterSidebar";
 
 export interface IProduct {
   _id: string;
@@ -32,33 +31,13 @@ const categories = [
   "Technology",
 ];
 
-export default function ProductsPage() {
-  // const { data } = getListings();
-  // console.log(data);
-  // const products = data?.data;
-  const products = [
-    {
-      _id: "67f20a38034eee9bf255b647",
-      title: "iPhone 13 Pro",
-      description:
-        "A used iPhone 13 Pro in excellent condition with 256GB storage.",
-      price: 850,
-      condition: "Used",
-      images: [
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg",
-      ],
-      userId: "67e09e4920b27fbdf0c49200",
-
-      status: "available",
-    },
-  ];
+export default function AllListings({ products }: { products: IListing[] }) {
   // const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] =
-    useState<IProduct[]>(products);
+    useState<IListing[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 50000]);
   const [showInStock, setShowInStock] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -71,16 +50,16 @@ export default function ProductsPage() {
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Category filter
-    if (selectedCategory !== "All Categories") {
-      filtered = filtered.filter(
-        (product) => product.category === selectedCategory
-      );
-    }
+    // if (selectedCategory !== "All Categories") {
+    //   filtered = filtered.filter(
+    //     (product) => product.category === selectedCategory
+    //   );
+    // }
 
     // Price range filter
     filtered = filtered.filter(
@@ -90,7 +69,7 @@ export default function ProductsPage() {
 
     // Stock filter
     if (showInStock) {
-      filtered = filtered.filter((product) => product.inStock);
+      filtered = filtered.filter((product) => product.status === "available");
     }
 
     // Update active filters
@@ -106,20 +85,20 @@ export default function ProductsPage() {
     setActiveFilters(newActiveFilters);
 
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategory, priceRange, showInStock]);
+  }, [searchTerm, selectedCategory, priceRange, showInStock, products]);
 
   const removeFilter = (filter: string) => {
     if (filter === "In Stock Only") {
       setShowInStock(false);
     } else if (filter.includes("$")) {
-      setPriceRange([0, 100]);
+      setPriceRange([0, 50000]);
     } else {
       setSelectedCategory("All Categories");
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto">
       {/* Header and Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
@@ -141,7 +120,7 @@ export default function ProductsPage() {
           </div>
 
           {/* filter sidebar */}
-          {/* <FilterSidebar
+          <FilterSidebar
             setIsFiltersOpen={setIsFiltersOpen}
             isFiltersOpen={isFiltersOpen}
             selectedCategory={selectedCategory}
@@ -151,7 +130,7 @@ export default function ProductsPage() {
             setPriceRange={setPriceRange}
             showInStock={showInStock}
             setShowInStock={setShowInStock}
-          /> */}
+          />
         </div>
       </div>
 
@@ -193,7 +172,7 @@ export default function ProductsPage() {
               onClick={() => {
                 setSearchTerm("");
                 setSelectedCategory("All Categories");
-                setPriceRange([0, 100]);
+                setPriceRange([0, 50000]);
                 setShowInStock(false);
               }}
             >
@@ -205,9 +184,9 @@ export default function ProductsPage() {
             layout
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {/* {filteredProducts?.map((product) => (
+            {filteredProducts?.map((product) => (
               <ProductCard key={product._id} product={product} />
-            ))} */}
+            ))}
           </motion.div>
         )}
       </AnimatePresence>

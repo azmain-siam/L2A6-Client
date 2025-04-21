@@ -1,3 +1,13 @@
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -7,18 +17,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "../ui/button";
+import { Slider } from "@/components/ui/slider";
 import { Filter } from "lucide-react";
-import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Slider } from "../ui/slider";
-import { Checkbox } from "../ui/checkbox";
 
 interface IFilterSidebarProps {
   setIsFiltersOpen: (open: boolean) => void;
@@ -84,7 +84,7 @@ const FilterSidebar = ({
               </Label>
               <Slider
                 min={0}
-                max={100}
+                max={50000}
                 step={1}
                 value={priceRange}
                 onValueChange={setPriceRange}
@@ -108,7 +108,7 @@ const FilterSidebar = ({
               variant="outline"
               onClick={() => {
                 setSelectedCategory("All Categories");
-                setPriceRange([0, 100]);
+                setPriceRange([0, 50000]);
                 setShowInStock(false);
               }}
             >
