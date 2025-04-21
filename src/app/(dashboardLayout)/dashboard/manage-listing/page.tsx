@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import DashHeading from "@/components/ui/DashHeading";
 import { getListings } from "@/services/ListingService";
 import { Button } from "@/components/ui/button";

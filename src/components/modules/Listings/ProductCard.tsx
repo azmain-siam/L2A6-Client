@@ -19,7 +19,7 @@ const ProductCard = ({ product }: { product: IListing }) => {
         <Image
           src={
             // product.images[0] ||
-            "https://i.ibb.co.com/4R9WNWB0/rsz-1joanna-kosinska-bf2vsubyhcq-unsplash.jpg"
+            "https://res.cloudinary.com/db0ecop7c/image/upload/v1745233235/kxnjsi5gfo0p7fmyzw3r.jpg"
           }
           width={1000}
           height={500}
