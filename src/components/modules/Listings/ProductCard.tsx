@@ -18,7 +18,7 @@ const ProductCard = ({ product }: { product: IListing }) => {
       <div className="relative h-[250px] w-full aspect-square overflow-hidden rounded-lg rounded-b-none bg-gray-100">
         <Image
           src={
-            // product.images[0] ||
+            product.images[0] ||
             "https://res.cloudinary.com/db0ecop7c/image/upload/v1745233235/kxnjsi5gfo0p7fmyzw3r.jpg"
           }
           width={1000}

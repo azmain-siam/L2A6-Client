@@ -80,20 +80,22 @@ export default function Navbar() {
             </Link>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="https://i.ibb.co.com/vkcW97y/dummy-man-570x570-1-2.png" />
+                  <AvatarFallback>{user.name}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="w-[200px] mr-10">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Profile
+                </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href={"/dashboard"}>Dashboard</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
+                {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
                 <DropdownMenuSeparator />
                 <Button
                   onClick={handleLogout}

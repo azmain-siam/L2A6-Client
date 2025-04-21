@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface IListing {
   _id: string;
   title: string;
@@ -5,6 +7,6 @@ export interface IListing {
   price: number;
   condition: string;
   images: string[];
-  userId: string;
+  userId: IUser;
   status: "available" | "sold";
 }
