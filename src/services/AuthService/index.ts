@@ -39,6 +39,7 @@ export const loginUser = async (loginData: FieldValues) => {
     if (result.success) {
       storeCookies.set("accessToken", result.data.accessToken);
     }
+
     return result;
   } catch (error: any) {
     return Error(error);
