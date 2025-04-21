@@ -5,7 +5,7 @@ const listingValidationSchema = z.object({
   description: z.string({
     required_error: "Description is required",
   }),
-  price: z.string({ required_error: "Price is required" }),
+  price: z.number({ required_error: "Price is required" }),
   condition: z.string({
     required_error: "Please select the condition of the product",
   }),

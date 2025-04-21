@@ -26,6 +26,7 @@ import { loginValidationSchema } from "./validation/loginValidation";
 import { loginUser } from "@/services/AuthService";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const LoginForm = ({
   showPassword,
@@ -37,6 +38,7 @@ const LoginForm = ({
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
   });
+  const { setIsLoading } = useUser();
   const router = useRouter();
 
   const {
@@ -49,6 +51,7 @@ const LoginForm = ({
       if (res.status === 200) {
         toast.success("Login successful");
         router.push("/");
+        setIsLoading(true);
       }
     } catch (error) {
       console.error(error);

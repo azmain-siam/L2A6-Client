@@ -52,7 +52,6 @@ export const updateListing = async (
   id: string
 ): Promise<any> => {
   try {
-    console.log(data, "data");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
       {
