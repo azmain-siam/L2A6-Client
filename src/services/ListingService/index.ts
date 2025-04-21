@@ -35,6 +35,24 @@ export const getListings = async () => {
   }
 };
 
+export const getListingsOfUser = async (userId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/user/${userId}`,
+      {
+        next: {
+          tags: ["LISTING"],
+        },
+      }
+    );
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};
+
 export const getSingleListing = async (productId: string) => {
   try {
     const res = await fetch(

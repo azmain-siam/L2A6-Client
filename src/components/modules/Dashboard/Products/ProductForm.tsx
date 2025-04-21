@@ -131,6 +131,7 @@ export default function ProductForm() {
                   placeholder="Price"
                   {...field}
                   value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
                 />
               </FormControl>
               <FormDescription />
