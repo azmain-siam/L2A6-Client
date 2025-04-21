@@ -1,3 +1,4 @@
+import ProductInfo from "@/components/modules/Listings/ProductDetails/ProductInfo";
 import { getSingleListing } from "@/services/ListingService";
 import React from "react";
 
@@ -8,10 +9,10 @@ const ProductDetailsPage = async ({
 }) => {
   const { productId } = await params;
   const { data: product } = await getSingleListing(productId);
-  console.log(product);
+
   return (
-    <div>
-      <h2>product details</h2>
+    <div className="container max-w-7xl mx-auto py-5">
+      <ProductInfo product={product} />
     </div>
   );
 };

@@ -72,7 +72,6 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
         formData
       );
       // const response = await updateListing(formData, listing._id);
-      console.log(response);
       if (response.status === 201) {
         toast.success(response.message);
         reset();

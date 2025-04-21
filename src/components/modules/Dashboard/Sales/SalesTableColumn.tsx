@@ -61,7 +61,7 @@ export const getSalesColumns = (): ColumnDef<ITransaction>[] => [
     accessorKey: "itemID.price",
     header: "Price",
     cell: ({ row }) => {
-      return <div>৳ {parseFloat(row.original.itemID.price).toFixed(2)}</div>;
+      return <div>৳ {row.original.itemID.price.toFixed(2)}</div>;
     },
   },
 ];
