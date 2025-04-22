@@ -7,9 +7,14 @@ import { addToCart } from "@/services/CartService";
 import { IListing } from "@/types/listing";
 import { Minus, Plus, RefreshCw, Shield, Star, Truck } from "lucide-react";
 import { motion } from "motion/react";
+import { toast } from "sonner";
 
 const ProductInfo = ({ product }: { product: IListing }) => {
   const handleAddToCart = async () => {
+    if (product.status === "sold") {
+      return toast.error("Product already sold!");
+    }
+    
     try {
       const user = await getCurrentUser();
       console.log(user);
@@ -22,6 +27,11 @@ const ProductInfo = ({ product }: { product: IListing }) => {
       console.log(data);
 
       const res = await addToCart(data);
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
 
       console.log(res);
     } catch (error) {

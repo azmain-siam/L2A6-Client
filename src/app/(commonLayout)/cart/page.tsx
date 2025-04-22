@@ -7,7 +7,6 @@ const CartPage = async () => {
 
   const { data } = await getCartItems(user.id);
   const cartItems = data?.items;
-  console.log(cartItems);
   return (
     <div className="container max-w-7xl mx-auto py-5">
       <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
