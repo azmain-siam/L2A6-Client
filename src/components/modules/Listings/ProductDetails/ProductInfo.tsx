@@ -2,11 +2,32 @@
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getCurrentUser } from "@/services/AuthService";
+import { addToCart } from "@/services/CartService";
 import { IListing } from "@/types/listing";
 import { Minus, Plus, RefreshCw, Shield, Star, Truck } from "lucide-react";
 import { motion } from "motion/react";
 
 const ProductInfo = ({ product }: { product: IListing }) => {
+  const handleAddToCart = async () => {
+    try {
+      const user = await getCurrentUser();
+      console.log(user);
+
+      const data = {
+        user: user?.id,
+        productId: product._id,
+      };
+
+      console.log(data);
+
+      const res = await addToCart(data);
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -23,6 +44,7 @@ const ProductInfo = ({ product }: { product: IListing }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
               src={
+                product.images[0] ||
                 "https://i.ibb.co.com/4R9WNWB0/rsz-1joanna-kosinska-bf2vsubyhcq-unsplash.jpg"
               }
               alt={"selectedImage.alt"}
@@ -100,7 +122,7 @@ const ProductInfo = ({ product }: { product: IListing }) => {
           {/* Add to Cart Button */}
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button
-              // onClick={() => handleAddToCart(product._id)}
+              onClick={handleAddToCart}
               className="w-full h-12 text-lg cursor-pointer"
             >
               Add to Cart

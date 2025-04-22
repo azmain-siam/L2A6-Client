@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Search, ShoppingBag, User } from "lucide-react";
+import { LogOut, Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -71,6 +71,12 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Link href="/cart">
+            <Button variant="ghost" size="icon" className="cursor-pointer">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="sr-only">Shopping cart</span>
+            </Button>
+          </Link>
           {!user ? (
             <Link href="/auth">
               <Button variant="default" size="sm" className="gap-2">
@@ -87,7 +93,14 @@ export default function Navbar() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[200px] mr-10">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1.5">
+                    <p className="font-medium leading-none">{user.name}</p>
+                    <p className="text-sm leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
                   Profile

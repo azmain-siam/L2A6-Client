@@ -10,12 +10,12 @@ const ProductCard = ({ product }: { product: IListing }) => {
     <motion.div
       key={product._id}
       layout
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      // viewport={{ once: true }}
       className="group shadow-md hover:shadow-lg rounded-lg dark:border"
     >
-      <div className="relative h-[250px] w-full aspect-square overflow-hidden rounded-lg rounded-b-none bg-gray-100">
+      <div className="relative h-[250px] w-full overflow-hidden rounded-lg rounded-b-none bg-gray-100">
         <Image
           src={
             product.images[0] ||
@@ -24,7 +24,7 @@ const ProductCard = ({ product }: { product: IListing }) => {
           width={1000}
           height={500}
           alt={product.title}
-          className="h-full w-full object-cover object-center transition-transform group-hover:scale-105"
+          className="h-full w-full object-contain object-center transition-transform group-hover:scale-105"
         />
         {product.status !== "available" && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
