@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { Heart, LogOut, Search, ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -73,8 +73,8 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="cursor-pointer">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="sr-only">Shopping cart</span>
+              <Heart className="!size-5" />
+              <span className="sr-only">Wishlist</span>
             </Button>
           </Link>
           {!user ? (

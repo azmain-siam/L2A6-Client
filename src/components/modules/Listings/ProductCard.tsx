@@ -37,7 +37,11 @@ const ProductCard = ({ product }: { product: IListing }) => {
           <h3 className="text-base font-medium">{product.title}</h3>
           <p className="text-base font-medium text-primary">${product.price}</p>
         </div>
-        <p className="text-sm text-gray-500">{product.description}</p>
+        <p className="text-sm text-gray-500">
+          {product.description.length > 100
+            ? product.description.slice(0, 100) + "..."
+            : product.description}
+        </p>
         <div className="flex items-center justify-between">
           <Badge variant="secondary">{product.condition}</Badge>
           <Button variant="default" size="sm" asChild>

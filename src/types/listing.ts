@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { ILoggedInUser } from "./user";
 
 export interface IListing {
   _id: string;
@@ -7,6 +7,6 @@ export interface IListing {
   price: number;
   condition: string;
   images: string[];
-  userId: IUser;
+  userId: ILoggedInUser;
   status: "available" | "sold";
 }
