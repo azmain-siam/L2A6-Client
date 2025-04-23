@@ -1,60 +1,34 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import Image from "next/image";
+import { IListing } from "@/types/listing";
+import { removeCartItems } from "@/services/CartService";
+import { toast } from "sonner";
 
-const CartItems = ({ cartItems }) => {
-  // const [updateCart] = useAddToCartMutation();
-  // const [removeFromCart] = useRemoveFromCartMutation();
-  // const handleIncrease = (item: CartItem) => {
-  //   setQuantity((prev) => {
-  //     return prev.map((cartItem) => {
-  //       if (cartItem.productId._id === item.productId._id) {
-  //         return { ...cartItem, cartQuantity: cartItem.cartQuantity + 1 };
-  //       }
-  //       return cartItem;
-  //     });
-  //   });
-  // };
-
-  // const handleDecrease = (item: CartItem) => {
-  //   setQuantity((prev) => {
-  //     return prev.map((cartItem) => {
-  //       if (cartItem.productId._id === item.productId._id) {
-  //         return { ...cartItem, cartQuantity: cartItem.cartQuantity - 1 };
-  //       }
-  //       return cartItem;
-  //     });
-  //   });
-  // };
-
+const CartItems = ({
+  cartItems,
+  userId,
+}: {
+  cartItems: IListing[];
+  userId: string;
+}) => {
   const handleRemoveCartItem = async (itemId: string) => {
-    // console.log(data, "data");
-    // const deleteItem = {
-    //   cartId: cartData.data._id,
-    //   itemId,
-    // };
-    // await removeFromCart(deleteItem);
-    // refetch();
-    // toast.success("Removed item from cart!");
+    try {
+      const data = await removeCartItems(userId, itemId);
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     cartItems.forEach((item, idx) => {
-  //       updateCart({
-  //         userId: user?.id,
-  //         productId: item.productId._id,
-  //         quantity: quantity[idx].cartQuantity,
-  //       });
-  //     });
-  //   }, 1000); // Debounce API call
-
-  //   return () => clearTimeout(timer);
-  // }, [cartItems, updateCart, quantity, user]);
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -70,7 +44,7 @@ const CartItems = ({ cartItems }) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {cartItems?.map((item, idx) => (
+          {cartItems?.map((item) => (
             <motion.div
               key={item._id}
               layout
@@ -79,17 +53,19 @@ const CartItems = ({ cartItems }) => {
               exit={{ opacity: 0 }}
               className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-sm"
             >
-              <img
+              <Image
                 src={item.images[0]}
-                // alt={item.productId.name}
+                alt={item.title}
+                width={500}
+                height={500}
                 className="w-20 h-20 object-cover rounded"
               />
               <div className="flex-1">
-                <h3 className="font-medium">item.productId.name</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="font-medium">{item.title}</h3>
+                {/* <p className="text-sm text-gray-500">
                   Stock: item.productId.quantity
-                </p>
-                <div className="flex items-center gap-2 mt-2">
+                </p> */}
+                {/* <div className="flex items-center gap-2 mt-2">
                   <Button
                     variant="outline"
                     size="icon"
@@ -114,13 +90,10 @@ const CartItems = ({ cartItems }) => {
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
-                </div>
+                </div> */}
               </div>
               <div className="text-right">
-                <p className="font-medium">
-                  $ ( item.productId.price * quantity?.[idx]?.cartQuantity
-                  ).toFixed(2)
-                </p>
+                <p className="font-medium">$ {item.price.toFixed(2)}</p>
                 <Button
                   variant="ghost"
                   size="icon"

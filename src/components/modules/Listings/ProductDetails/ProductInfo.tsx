@@ -14,17 +14,14 @@ const ProductInfo = ({ product }: { product: IListing }) => {
     if (product.status === "sold") {
       return toast.error("Product already sold!");
     }
-    
+
     try {
       const user = await getCurrentUser();
-      console.log(user);
 
       const data = {
         user: user?.id,
         productId: product._id,
       };
-
-      console.log(data);
 
       const res = await addToCart(data);
       if (res.success) {
@@ -32,8 +29,6 @@ const ProductInfo = ({ product }: { product: IListing }) => {
       } else {
         toast.error(res.message);
       }
-
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

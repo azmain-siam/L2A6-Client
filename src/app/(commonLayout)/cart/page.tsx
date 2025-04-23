@@ -13,7 +13,7 @@ const CartPage = async () => {
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Cart Items */}
-        <CartItems cartItems={cartItems} />
+        <CartItems cartItems={cartItems} userId={user.id} />
         {/* Order Summary */}
         {/* {cartItems && cartItems.length > 0 && ( */}
 

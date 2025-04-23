@@ -33,3 +33,25 @@ export const getCartItems = async (userId: string) => {
 
   return data;
 };
+
+export const removeCartItems = async (userId: string, itemId: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/cart/${userId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ itemId }),
+    }
+  );
+  revalidateTag("CART");
+
+  if (!res.ok) {
+    // Optional: Throw a meaningful error if something goes wrong
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Failed to remove cart item");
+  }
+
+  return res.json();
+};
