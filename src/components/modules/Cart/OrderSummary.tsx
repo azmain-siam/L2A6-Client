@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,14 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@/context/UserContext";
+import { createTransaction } from "@/services/TransactionService";
 import { IListing } from "@/types/listing";
 import { motion } from "motion/react";
+import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 
 const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   const [subtotal, setSubtotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
+  const { user } = useUser();
 
   useEffect(() => {
     const calculateAmount = () => {
@@ -32,6 +37,31 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
     calculateAmount();
   }, [cartItems]);
 
+  const handleCheckout = async () => {
+    try {
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE as string
+      );
+      const payload = {
+        buyerId: user?.id,
+        // sellerId:
+        items: cartItems,
+        amounts: {
+          subtotal,
+          total,
+          taxAmount,
+        },
+      };
+
+      const data = await createTransaction(payload);
+
+      stripe!.redirectToCheckout({
+        sessionId: data.data.sessionId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setFormData({ ...formData, [e.target.id]: e.target.value });
   // };
@@ -96,6 +126,13 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
             </CardContent>
 
             <CardFooter className="flex flex-col">
+              <Button
+                variant={"default"}
+                onClick={handleCheckout}
+                className="cursor-pointer"
+              >
+                Checkout
+              </Button>
               {/* <StripePaymentModal
                 handleSubmit={handleSubmit}
                 amount={total}
