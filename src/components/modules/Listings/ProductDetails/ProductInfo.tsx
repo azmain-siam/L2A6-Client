@@ -24,6 +24,10 @@ const ProductInfo = ({ product }: { product: IListing }) => {
   const { user } = useUser();
 
   const handleAddToCart = async () => {
+    if (!user) {
+      toast.warning("Please login first!");
+      return;
+    }
     if (product.status === "sold") {
       return toast.error("Product already sold!");
     }
@@ -171,26 +175,15 @@ const ProductInfo = ({ product }: { product: IListing }) => {
             {/* Call & Email Buttons */}
 
             <div className="grid grid-cols-2 gap-3">
-              <Link href={`tel:${product.userId.phone}`}>
-                <motion.div
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+              {user?.id === product.userId._id ? (
+                <>
                   <Button
                     disabled={user?.id === product.userId._id}
-                    onClick={handleAddToCart}
                     className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
                   >
                     <Phone /> Call
                   </Button>
-                </motion.div>
-              </Link>
 
-              <Link href={`mailto:${product.userId.email}`}>
-                <motion.div
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.98 }}
-                >
                   <Button
                     disabled={user?.id === product.userId._id}
                     onClick={handleAddToCart}
@@ -198,8 +191,39 @@ const ProductInfo = ({ product }: { product: IListing }) => {
                   >
                     <Mail /> Email
                   </Button>
-                </motion.div>
-              </Link>
+                </>
+              ) : (
+                <>
+                  <Link href={`tel:${product.userId.phone}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        disabled={user?.id === product.userId._id}
+                        onClick={handleAddToCart}
+                        className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                      >
+                        <Phone /> Call
+                      </Button>
+                    </motion.div>
+                  </Link>
+
+                  <Link href={`mailto:${product.userId.email}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        disabled={user?.id === product.userId._id}
+                        className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                      >
+                        <Mail /> Email
+                      </Button>
+                    </motion.div>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 

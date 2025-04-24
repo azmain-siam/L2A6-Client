@@ -1,4 +1,5 @@
 import CartItems from "@/components/modules/Cart/CartItems";
+import OrderSummary from "@/components/modules/Cart/OrderSummary";
 import { getCurrentUser } from "@/services/AuthService";
 import { getCartItems } from "@/services/CartService";
 
@@ -16,7 +17,7 @@ const CartPage = async () => {
         <CartItems cartItems={cartItems} userId={user.id} />
         {/* Order Summary */}
         {/* {cartItems && cartItems.length > 0 && ( */}
-
+        <OrderSummary cartItems={cartItems} />
         {/* )} */}
       </div>
     </div>

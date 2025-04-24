@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -8,14 +10,31 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { IListing } from "@/types/listing";
 import { motion } from "motion/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const OrderSummary = ({ cartItems }) => {
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
+  const [subtotal, setSubtotal] = useState(0);
+  const [taxAmount, setTaxAmount] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const calculateAmount = () => {
+      const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+
+      const taxAmount = (subtotal * 3) / 100;
+      setTaxAmount(taxAmount);
+      setSubtotal(subtotal);
+      setTotal(subtotal + taxAmount);
+    };
+
+    calculateAmount();
+  }, [cartItems]);
+
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({ ...formData, [e.target.id]: e.target.value });
+  // };
   return (
     <div>
       {/* Order Summary */}
@@ -37,14 +56,12 @@ const OrderSummary = ({ cartItems }) => {
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Tax (10%)</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>Platform fee (3%)</span>
+                  <span>${taxAmount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span>
-                    {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
-                  </span>
+                  <span>Shipping (Free)</span>
+                  <span>0</span>
                 </div>
                 <div className="border-t pt-2 font-medium flex justify-between">
                   <span>Total</span>
@@ -52,48 +69,38 @@ const OrderSummary = ({ cartItems }) => {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input onChange={handleChange} id="name" required />
+                  <Input id="name" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    onChange={handleChange}
-                    id="email"
-                    type="email"
-                    required
-                  />
+                  <Input id="email" type="email" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Shipping Address</Label>
-                  <Input
-                    onChange={handleChange}
-                    id="address"
-                    required
-                    defaultValue={userData?.address}
-                  />
+                  <Input id="address" required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="city">City</Label>
-                    <Input onChange={handleChange} id="city" required />
+                    <Input id="city" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="postal">Postal Code</Label>
-                    <Input onChange={handleChange} id="postal" required />
+                    <Input id="postal" required />
                   </div>
                 </div>
               </form>
             </CardContent>
 
             <CardFooter className="flex flex-col">
-              <StripePaymentModal
+              {/* <StripePaymentModal
                 handleSubmit={handleSubmit}
                 amount={total}
                 formData={formData}
-              />
+              /> */}
             </CardFooter>
           </Card>
         </motion.div>
