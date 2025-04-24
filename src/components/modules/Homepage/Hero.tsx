@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import bannerImg from "@/assets/images/banner.jpg";
 
 const Hero = () => {
   return (
@@ -32,14 +33,18 @@ const Hero = () => {
               <Link href="/products">
                 <Button
                   size="lg"
-                  className="gap-1 rounded-full shadow-lg hover:shadow-primary/20 transition-all"
+                  className="gap-1 rounded-full shadow-lg hover:shadow-primary/20 transition-all cursor-pointer"
                 >
                   Browse Products
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button size="lg" variant="outline" className="rounded-full">
+              <Link href="/dashboard/add-listing">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full cursor-pointer"
+                >
                   Start Selling
                 </Button>
               </Link>
@@ -49,11 +54,11 @@ const Hero = () => {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-30 animate-pulse-slow"></div>
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/placeholder.svg?height=500&width=500"
-                width={500}
-                height={500}
+                src={bannerImg}
+                width={1000}
+                height={300}
                 alt="Hero Image"
-                className="rounded-2xl object-cover transition-transform duration-500 hover:scale-105"
+                className="rounded-2xl object-cover object-center transition-transform duration-500 hover:scale-105"
               />
             </div>
             <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-secondary/20 backdrop-blur-md p-2 animate-float">

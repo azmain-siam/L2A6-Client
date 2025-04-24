@@ -1,12 +1,53 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUser } from "@/context/UserContext";
+import { addToCart } from "@/services/CartService";
 import { IListing } from "@/types/listing";
-import { Minus, Plus, RefreshCw, Shield, Star, Truck } from "lucide-react";
+import {
+  CheckCircle,
+  Heart,
+  Lock,
+  Mail,
+  Phone,
+  Star,
+  Truck,
+} from "lucide-react";
 import { motion } from "motion/react";
+import Image from "next/image";
+import Link from "next/link";
+import { toast } from "sonner";
 
 const ProductInfo = ({ product }: { product: IListing }) => {
+  const { user } = useUser();
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.warning("Please login first!");
+      return;
+    }
+    if (product.status === "sold") {
+      return toast.error("Product already sold!");
+    }
+
+    try {
+      const data = {
+        user: user?.id,
+        productId: product._id,
+      };
+
+      const res = await addToCart(data);
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -23,6 +64,7 @@ const ProductInfo = ({ product }: { product: IListing }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
               src={
+                product.images[0] ||
                 "https://i.ibb.co.com/4R9WNWB0/rsz-1joanna-kosinska-bf2vsubyhcq-unsplash.jpg"
               }
               alt={"selectedImage.alt"}
@@ -38,24 +80,25 @@ const ProductInfo = ({ product }: { product: IListing }) => {
           className="space-y-6"
         >
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold">{product.title}</h1>
-            <div className="flex items-center space-x-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-5 w-5 fill-yellow-400 text-yellow-400"
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-gray-500">(124 reviews)</span>
-            </div>
+            <h1 className="text-3xl font-bold flex gap-2 items-center">
+              {product.title}{" "}
+              <Badge
+                className="hover:bg-primary font-medium"
+                variant={"default"}
+              >
+                {product.condition}
+              </Badge>
+            </h1>
             <div className="text-2xl font-bold text-primary">
               ${product.price}
             </div>
           </div>
 
-          <p className="text-gray-600">{product.description}</p>
+          <p className="text-gray-600">
+            {product.description.length > 100
+              ? product.description.split(". ").slice(0, 3).join(". ") + "..."
+              : product.description}
+          </p>
 
           {/* Color Selection */}
           {/* <div className="space-y-2">
@@ -73,7 +116,7 @@ const ProductInfo = ({ product }: { product: IListing }) => {
           </div> */}
 
           {/* Quantity Selector */}
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <h3 className="font-medium">Quantity</h3>
             <div className="flex items-center space-x-2">
               <Button
@@ -95,31 +138,108 @@ const ProductInfo = ({ product }: { product: IListing }) => {
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
+          </div> */}
+
+          <div className="border-y p-2">
+            <div className="flex items-center gap-3 py-2">
+              <Image
+                src="https://i.ibb.co.com/vkcW97y/dummy-man-570x570-1-2.png"
+                alt="Seller Avatar"
+                width={200}
+                height={200}
+                className="w-10 h-10 rounded-full object-cover border"
+              />
+              <div>
+                <h4 className="font-semibold text-sm">{product.userId.name}</h4>
+                <p className="text-xs text-gray-500">
+                  Top Rated Seller · 120 sales
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Add to Cart Button */}
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button
-              // onClick={() => handleAddToCart(product._id)}
-              className="w-full h-12 text-lg cursor-pointer"
-            >
-              Add to Cart
-            </Button>
-          </motion.div>
+          <div className="grid grid-cols-2 gap-3">
+            {/* Wishlist Button */}
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button
+                disabled={user?.id === product.userId._id}
+                onClick={handleAddToCart}
+                className="w-full h-10 cursor-pointer"
+              >
+                <Heart />
+                Wishlist Item
+              </Button>
+            </motion.div>
+
+            {/* Call & Email Buttons */}
+
+            <div className="grid grid-cols-2 gap-3">
+              {user?.id === product.userId._id ? (
+                <>
+                  <Button
+                    disabled={user?.id === product.userId._id}
+                    className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                  >
+                    <Phone /> Call
+                  </Button>
+
+                  <Button
+                    disabled={user?.id === product.userId._id}
+                    onClick={handleAddToCart}
+                    className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                  >
+                    <Mail /> Email
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href={`tel:${product.userId.phone}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        disabled={user?.id === product.userId._id}
+                        onClick={handleAddToCart}
+                        className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                      >
+                        <Phone /> Call
+                      </Button>
+                    </motion.div>
+                  </Link>
+
+                  <Link href={`mailto:${product.userId.email}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        disabled={user?.id === product.userId._id}
+                        className="w-full h-10 cursor-pointer bg-white border border-primary text-primary hover:text-white hover:bg-primary"
+                      >
+                        <Mail /> Email
+                      </Button>
+                    </motion.div>
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
 
           {/* Features */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t">
             <div className="flex items-center space-x-2 text-sm">
-              <Truck className="h-5 w-5 text-gray-400" />
+              <Truck className="h-5 w-5 text-gray-600" />
               <span>Free Shipping</span>
             </div>
             <div className="flex items-center space-x-2 text-sm">
-              <RefreshCw className="h-5 w-5 text-gray-400" />
-              <span>30-Day Returns</span>
+              <CheckCircle className="h-5 w-5 text-gray-600" />
+              <span>Verified Seller</span>
             </div>
             <div className="flex items-center space-x-2 text-sm">
-              <Shield className="h-5 w-5 text-gray-400" />
-              <span>2-Year Warranty</span>
+              <Lock className="h-5 w-5 text-gray-600" />
+              <span>Secure Payment</span>
             </div>
           </div>
         </motion.div>
@@ -135,18 +255,7 @@ const ProductInfo = ({ product }: { product: IListing }) => {
           </TabsList>
           <TabsContent value="description" className="mt-6">
             <div className="prose max-w-none">
-              <p>
-                This premium leather journal is the perfect companion for your
-                thoughts, ideas, and creative endeavors. Handcrafted from
-                genuine leather, each journal develops a unique patina over
-                time, making it truly one of a kind.
-              </p>
-              <p className="mt-4">
-                The 240 pages of acid-free paper are perfect for use with
-                various writing instruments, from fountain pens to pencils. The
-                paper is thick enough to prevent bleed-through, making it ideal
-                for both single and double-sided use.
-              </p>
+              <p>{product.description}</p>
             </div>
           </TabsContent>
           <TabsContent value="specifications" className="mt-6">

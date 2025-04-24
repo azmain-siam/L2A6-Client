@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, LogOut, Search, ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -71,6 +71,12 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Link href="/cart">
+            <Button variant="ghost" size="icon" className="cursor-pointer">
+              <Heart className="!size-5" />
+              <span className="sr-only">Wishlist</span>
+            </Button>
+          </Link>
           {!user ? (
             <Link href="/auth">
               <Button variant="default" size="sm" className="gap-2">
@@ -80,20 +86,29 @@ export default function Navbar() {
             </Link>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="https://i.ibb.co.com/vkcW97y/dummy-man-570x570-1-2.png" />
+                  <AvatarFallback>{user.name}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent className="w-[200px] mr-10">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1.5">
+                    <p className="font-medium leading-none">{user.name}</p>
+                    <p className="text-sm leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Profile
+                </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href={"/dashboard"}>Dashboard</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
+                {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
                 <DropdownMenuSeparator />
                 <Button
                   onClick={handleLogout}
