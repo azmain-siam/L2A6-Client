@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { IListing } from "@/types/listing";
 import { motion } from "motion/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   const [subtotal, setSubtotal] = useState(0);
@@ -61,7 +61,7 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping (Free)</span>
-                  <span>0</span>
+                  <span>$0</span>
                 </div>
                 <div className="border-t pt-2 font-medium flex justify-between">
                   <span>Total</span>

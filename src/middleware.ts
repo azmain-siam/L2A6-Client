@@ -22,5 +22,5 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/dashboard", "/cart"],
+  matcher: ["/dashboard/:path", "/cart"],
 };
