@@ -79,12 +79,12 @@ const items = [
   },
   {
     title: "Track Purchases",
-    url: "/dashboard/purchases",
+    url: "/dashboard/purchase-history",
     icon: ShoppingCart,
   },
   {
     title: "Track Sales",
-    url: "/dashboard/sales",
+    url: "/dashboard/sales-history",
     icon: DollarSign,
   },
   {

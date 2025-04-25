@@ -27,7 +27,7 @@ export default function PaymentSuccessPage() {
         console.log(res);
         if (res.success === true) {
           toast.success(res.message);
-          router.push("/dashboard/purchases");
+          router.push("/dashboard/purchase-history");
         } else {
           toast.error("Something went wrong!");
         }
