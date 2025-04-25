@@ -1,8 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, ShoppingBag, TrendingUp } from "lucide-react";
-import Link from "next/link";
-import React from "react";
+import { Check, ShoppingBag, TrendingUp } from "lucide-react";
 
 const Instructions = () => {
   return (
@@ -63,7 +60,7 @@ const Instructions = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center mt-12">
+        {/* <div className="flex justify-center mt-12">
           <Link href="/login">
             <Button
               size="lg"
@@ -73,7 +70,7 @@ const Instructions = () => {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   );
