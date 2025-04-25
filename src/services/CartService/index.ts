@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addToCart = async (payload: any) => {
@@ -8,6 +9,7 @@ export const addToCart = async (payload: any) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: (await cookies()).get("accessToken")!.value,
     },
     body: JSON.stringify(payload),
   });
@@ -26,6 +28,9 @@ export const getCartItems = async (userId: string) => {
       next: {
         tags: ["CART"],
       },
+      headers: {
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
     }
   );
 
@@ -41,6 +46,7 @@ export const removeCartItems = async (userId: string, itemId: string) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")!.value,
       },
       body: JSON.stringify({ itemId }),
     }

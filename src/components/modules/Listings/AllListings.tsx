@@ -67,6 +67,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
 
     // Update active filters
     const newActiveFilters: string[] = [];
+    
     if (selectedCategory !== "All Condition")
       newActiveFilters.push(selectedCategory);
 
