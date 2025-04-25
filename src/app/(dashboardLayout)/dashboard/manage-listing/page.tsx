@@ -11,7 +11,6 @@ import { IUser } from "@/types";
 
 const ManageListingPage = async () => {
   const user = (await getCurrentUser()) as IUser;
-console.log(user)
   const { data } = await getListingsOfUser(user.id);
 
   return (

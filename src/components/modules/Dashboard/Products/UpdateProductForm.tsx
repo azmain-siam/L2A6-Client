@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { IListing } from "@/types/listing";
 import useAxios from "@/hooks/globalAxiosURL";
+import { useRouter } from "next/navigation";
 
 export default function UpdateProductForm({ listing }: { listing: IListing }) {
   const form = useForm({
@@ -50,6 +51,7 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
   const { user } = useUser();
   const [images, setImages] = useState<File[] | []>([]);
   const [previewImages, setPreviewImages] = useState<string[] | []>([]);
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -72,11 +74,15 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
         formData
       );
       // const response = await updateListing(formData, listing._id);
-      if (response.status === 201) {
+      if (response.success) {
         toast.success(response.message);
         reset();
         setImages([]);
         setPreviewImages([]);
+
+        router.push("/dashboard/manage-listing");
+      } else {
+        toast.error(response.message);
       }
     } catch (error) {
       // if(error.){

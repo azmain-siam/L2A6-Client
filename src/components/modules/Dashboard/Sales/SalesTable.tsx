@@ -4,7 +4,7 @@ import { DataTable } from "@/components/ui/core/data-table";
 import { ITransaction } from "@/types/transaction";
 import { getSalesColumns } from "./SalesTableColumn";
 
-const PurchaseTable = ({ data }: { data: ITransaction[] }) => {
+const SalesTable = ({ data }: { data: ITransaction[] }) => {
   const columns = getSalesColumns();
   return (
     <div>
@@ -13,4 +13,4 @@ const PurchaseTable = ({ data }: { data: ITransaction[] }) => {
   );
 };
 
-export default PurchaseTable;
+export default SalesTable;

@@ -102,9 +102,11 @@ export default function Navbar() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  Profile
-                </DropdownMenuItem>
+
+                <Link href={"/dashboard/profile"} className="cursor-pointer">
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                </Link>
+
                 <DropdownMenuItem>
                   <Link href={"/dashboard"}>Dashboard</Link>
                 </DropdownMenuItem>

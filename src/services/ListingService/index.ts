@@ -87,6 +87,23 @@ export const updateListing = async (
   }
 };
 
+export const updateListingStatus = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/status/${id}`,
+      {
+        method: "PUT",
+      }
+    );
+
+    revalidateTag("LISTING");
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const deleteListing = async (id: string) => {
   try {
     const result = await axios.delete(
