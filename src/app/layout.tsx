@@ -11,7 +11,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "NextHand",
+  title: "SwapSpot",
   description: "A re-commerce platform",
 };
 
