@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import ImageUpload from "../shared/ImageUpload";
+// import ImageUpload from "../shared/ImageUpload";
 import {
   Select,
   SelectContent,
@@ -41,7 +41,7 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
       description: listing?.description || "",
       price: listing?.price || undefined,
       condition: listing?.condition || "",
-      images: listing.images[0],
+      // images: listing.images[0],
     },
   });
   const {
@@ -50,8 +50,8 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
   } = form;
   const axios = useAxios();
   const { user } = useUser();
-  const [images, setImages] = useState<File[] | []>([]);
-  const [previewImages, setPreviewImages] = useState<string[] | []>([]);
+  // const [images, setImages] = useState<File[] | []>([]);
+  // const [previewImages, setPreviewImages] = useState<string[] | []>([]);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -79,8 +79,8 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
       if (response.success) {
         toast.success(response.message);
         reset();
-        setImages([]);
-        setPreviewImages([]);
+        // setImages([]);
+        // setPreviewImages([]);
 
         router.push("/dashboard/manage-listing");
       } else {
