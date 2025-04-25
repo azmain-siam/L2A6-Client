@@ -56,6 +56,33 @@ export const getCurrentUser = async () => {
   }
 };
 
+export const updateUserInfo = async (payload: any, userId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await res.json();
+
+    const storeCookies = await cookies();
+
+    if (data.success) {
+      storeCookies.set("accessToken", data.data.accessToken);
+    }
+
+    return data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const logout = async () => {
   (await cookies()).delete("accessToken");
 };
