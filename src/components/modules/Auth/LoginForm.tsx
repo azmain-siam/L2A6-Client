@@ -38,9 +38,9 @@ const LoginForm = ({
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
   });
-  const { setIsLoading } = useUser();
+  const { handleUser } = useUser();
   const router = useRouter();
-  
+
   const {
     formState: { isSubmitting },
   } = form;
@@ -50,8 +50,8 @@ const LoginForm = ({
 
       if (res.status === 200) {
         toast.success("Login successful");
+        await handleUser();
         router.push("/");
-        setIsLoading(true);
       }
     } catch (error) {
       console.error(error);

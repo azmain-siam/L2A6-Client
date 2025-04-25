@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, LogOut, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, LogOut, ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -61,14 +61,14 @@ export default function Navbar() {
           </nav>
         </div>
 
-        <div className="hidden md:flex items-center gap-4 relative w-full max-w-sm mx-4">
+        {/* <div className="hidden md:flex items-center gap-4 relative w-full max-w-sm mx-4">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search items..."
             className="w-full pl-8"
           />
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-2">
           <Link href="/cart">
@@ -79,7 +79,11 @@ export default function Navbar() {
           </Link>
           {!user ? (
             <Link href="/auth">
-              <Button variant="default" size="sm" className="gap-2">
+              <Button
+                variant="default"
+                size="sm"
+                className="gap-2 cursor-pointer"
+              >
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">Login</span>
               </Button>
