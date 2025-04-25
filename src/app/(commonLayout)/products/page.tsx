@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import AllListings from "@/components/modules/Listings/AllListings";
 // import PageBanner from "@/components/ui/core/PageBanner";
 import { getListings } from "@/services/ListingService";
