@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import DashHeading from "@/components/ui/DashHeading";
 import { useUser } from "@/context/UserContext";
 import { Pen, User } from "lucide-react";
@@ -32,9 +33,9 @@ const ProfilePage = () => {
           </div>
 
           <Link href="/dashboard/profile/edit">
-            <button className="mt-4 w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+            <Button className="w-full cursor-pointer">
               <Pen /> Edit Profile
-            </button>
+            </Button>
           </Link>
         </div>
       </div>

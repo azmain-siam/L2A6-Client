@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Loader2, User } from "lucide-react";
+import { Loader2, Pen, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { updateUserInfo } from "@/services/AuthService";
@@ -57,7 +57,7 @@ export default function ProfileForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 p-1 pb-8">
           <div className="space-y-2">
             <FormField
               control={form.control}
@@ -108,7 +108,7 @@ export default function ProfileForm({
         <CardFooter>
           <Button
             type="submit"
-            className="w-full rounded-full bg-gradient-to-r cursor-pointer from-primary to-primary-second hover:from-primary/80 hover:to-primary-second/80 duration-300"
+            className="w-full cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -117,7 +117,9 @@ export default function ProfileForm({
                 Updating...
               </>
             ) : (
-              "Update Profile"
+              <>
+                <Pen /> Update Profile
+              </>
             )}
           </Button>
         </CardFooter>
