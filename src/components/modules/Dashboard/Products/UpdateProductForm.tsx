@@ -150,7 +150,8 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
                   type="number"
                   placeholder="Price"
                   {...field}
-                  value={`${field.value}` || ""}
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
                 />
               </FormControl>
               <FormDescription />
