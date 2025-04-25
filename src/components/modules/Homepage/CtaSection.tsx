@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const CtaSection = () => {
@@ -17,7 +15,7 @@ const CtaSection = () => {
               platform today.
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/login">
+              {/* <Link href="/login">
                 <Button
                   size="lg"
                   variant="secondary"
@@ -26,19 +24,19 @@ const CtaSection = () => {
                   Create Account
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </Link>
+              </Link> */}
               <Link href="/products">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="rounded-full border-2 border-white text-white hover:bg-white/10 transition-all"
+                  className="rounded-full border-2 border-white text-black hover:bg-white/10 transition-all"
                 >
                   Browse Products
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="mx-auto lg:mx-0 relative">
+          {/* <div className="mx-auto lg:mx-0 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src="/placeholder.svg?height=400&width=600"
@@ -65,7 +63,7 @@ const CtaSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

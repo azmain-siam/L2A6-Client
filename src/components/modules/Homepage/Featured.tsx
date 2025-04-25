@@ -8,8 +8,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Featured = async () => {
-  const { data } = await getListings();
-  const products: IListing[] = data;
+  let products: IListing[] = [];
+
+  try {
+    const { data } = await getListings();
+    products = data;
+  } catch (error) {
+    console.error("Error loading products", error);
+  }
 
   return (
     <section className="w-full py-16 md:py-24">
@@ -30,45 +36,49 @@ const Featured = async () => {
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-second rounded-full"></div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          {products.slice(0, 4).map((product: IListing) => (
-            <Link href={`/products/${product._id}`} key={product._id}>
-              <Card className="overflow-hidden group card-hover border-0 shadow-lg">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={product.images[0] || "/placeholder.svg"}
-                    alt={product.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-2 right-2">
-                    <Badge
-                      variant="default"
-                      // className="bg-primary-second/90 hover:bg-primary-second text-white"
-                    >
-                      {product.condition}
-                    </Badge>
+          {products.length > 0 ? (
+            products.slice(0, 4).map((product: IListing) => (
+              <Link href={`/products/${product._id}`} key={product._id}>
+                <Card className="overflow-hidden group card-hover border-0 shadow-lg">
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={product.images[0] || "/placeholder.svg"}
+                      alt={product.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute top-2 right-2">
+                      <Badge
+                        variant="default"
+                        // className="bg-primary-second/90 hover:bg-primary-second text-white"
+                      >
+                        {product.condition}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors">
-                    {product.title}
-                  </h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="font-bold text-xl text-primary">
-                      ${product.price}
-                    </p>
-                    {/* <div className="flex items-center text-sm text-muted-foreground">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors">
+                      {product.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="font-bold text-xl text-primary">
+                        ${product.price}
+                      </p>
+                      {/* <div className="flex items-center text-sm text-muted-foreground">
                       <Star className="h-3.5 w-3.5 fill-secondary text-secondary mr-1" />
                       {product.rating}
                     </div> */}
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Seller: {product.userId?.name}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Seller: {product.userId?.name}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))
+          ) : (
+            <p>No products found.</p>
+          )}
         </div>
         <div className="flex justify-center mt-12">
           <Link href="/products">

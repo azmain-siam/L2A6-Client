@@ -60,7 +60,7 @@ const FilterSidebar = ({
 
           <div className="py-6 space-y-6">
             <div className="space-y-2">
-              <Label>Category</Label>
+              <Label>Condition</Label>
               <Select
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}

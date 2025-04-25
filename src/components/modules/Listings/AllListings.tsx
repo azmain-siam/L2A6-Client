@@ -22,21 +22,14 @@ export interface IProduct {
   image: string;
 }
 
-const categories = [
-  "All Categories",
-  "Writing",
-  "Office Supplies",
-  "Art Supplies",
-  "Educational",
-  "Technology",
-];
+const categories = ["All Condition", "Used", "Refurbished", "New"];
 
 export default function AllListings({ products }: { products: IListing[] }) {
   // const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] =
     useState<IListing[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedCategory, setSelectedCategory] = useState("All Condition");
   const [priceRange, setPriceRange] = useState([0, 50000]);
   const [showInStock, setShowInStock] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -55,11 +48,11 @@ export default function AllListings({ products }: { products: IListing[] }) {
     }
 
     // Category filter
-    // if (selectedCategory !== "All Categories") {
-    //   filtered = filtered.filter(
-    //     (product) => product.category === selectedCategory
-    //   );
-    // }
+    if (selectedCategory !== "All Condition") {
+      filtered = filtered.filter(
+        (product) => product.condition === selectedCategory
+      );
+    }
 
     // Price range filter
     filtered = filtered.filter(
@@ -74,7 +67,8 @@ export default function AllListings({ products }: { products: IListing[] }) {
 
     // Update active filters
     const newActiveFilters: string[] = [];
-    if (selectedCategory !== "All Categories")
+    
+    if (selectedCategory !== "All Condition")
       newActiveFilters.push(selectedCategory);
 
     if (showInStock) newActiveFilters.push("In Stock Only");
@@ -93,7 +87,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
     } else if (filter.includes("$")) {
       setPriceRange([0, 50000]);
     } else {
-      setSelectedCategory("All Categories");
+      setSelectedCategory("All Condition");
     }
   };
 

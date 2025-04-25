@@ -42,6 +42,7 @@ const RegisterForm = ({
 
   const {
     formState: { isSubmitting },
+    reset,
   } = form;
 
   const password = form.watch("password");
@@ -51,7 +52,8 @@ const RegisterForm = ({
     try {
       const res = await registerUser(data);
       if (res.status === 201) {
-        toast.success("User registration successful");
+        toast.success("User registration successful. Please login now!");
+        reset();
       } else if (res.error) {
         toast.error(res.message);
       }

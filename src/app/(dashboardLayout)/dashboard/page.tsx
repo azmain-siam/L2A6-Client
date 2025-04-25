@@ -12,11 +12,11 @@ export default function Dashboard() {
     <div className="min-h-screen p-6">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Welcome Section */}
-        <div>
-          <h1 className="text-3xl font-bold text-green-600">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold text-primary">
             Welcome, {user?.name}!
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground ">
             Your personal dashboard overview.
           </p>
         </div>

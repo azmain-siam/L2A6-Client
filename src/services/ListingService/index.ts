@@ -43,6 +43,9 @@ export const getListingsOfUser = async (userId: string) => {
         next: {
           tags: ["LISTING"],
         },
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
       }
     );
 
@@ -93,6 +96,9 @@ export const updateListingStatus = async (id: string) => {
       `${process.env.NEXT_PUBLIC_BASE_API}/listings/status/${id}`,
       {
         method: "PUT",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
       }
     );
 
@@ -107,7 +113,12 @@ export const updateListingStatus = async (id: string) => {
 export const deleteListing = async (id: string) => {
   try {
     const result = await axios.delete(
-      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
     );
 
     revalidateTag("LISTING");
