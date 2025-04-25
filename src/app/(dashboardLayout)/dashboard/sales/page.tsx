@@ -1,4 +1,4 @@
-import PurchaseTable from "@/components/modules/Dashboard/Purchases/PurchaseTable";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SalesTable from "@/components/modules/Dashboard/Sales/SalesTable";
 import DashHeading from "@/components/ui/DashHeading";
 import { getCurrentUser } from "@/services/AuthService";

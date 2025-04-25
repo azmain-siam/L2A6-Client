@@ -24,6 +24,8 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   const [total, setTotal] = useState(0);
   const { user } = useUser();
 
+  console.log(user);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,7 +62,8 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   }, [cartItems]);
   const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const stripe = await loadStripe(
@@ -179,6 +182,7 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
                   variant={"default"}
                   className="w-full cursor-pointer"
                   type="submit"
+                  // onClick={handleCheckout}
                   disabled={isDisabled}
                 >
                   {loading ? (

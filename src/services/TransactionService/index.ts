@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cookies } from "next/headers";
 
@@ -17,6 +18,7 @@ export const createTransaction = async (payload: any) => {
       }
     );
 
+    revalidateTag("CART");
     const data = await res.json();
     return data;
   } catch (error: any) {
@@ -37,6 +39,7 @@ export const completeTransaction = async (transactionId: string) => {
       }
     );
 
+    revalidateTag("CART");
     const data = await res.json();
     return data;
   } catch (error: any) {
