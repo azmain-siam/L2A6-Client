@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,12 +16,35 @@ import { IListing } from "@/types/listing";
 import { motion } from "motion/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
+import { Loader } from "lucide-react";
 
 const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   const [subtotal, setSubtotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
   const { user } = useUser();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    postal: "",
+  });
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  // Check if all fields are filled
+  useEffect(() => {
+    const isComplete = Object.values(formData).every(
+      (val) => val.trim() !== ""
+    );
+    setIsDisabled(!isComplete);
+  }, [formData]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
 
   useEffect(() => {
     const calculateAmount = () => {
@@ -36,9 +58,11 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
 
     calculateAmount();
   }, [cartItems]);
+  const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
     try {
+      setLoading(true);
       const stripe = await loadStripe(
         process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE as string
       );
@@ -60,6 +84,8 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,46 +125,85 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
                 </div>
               </div>
 
-              <form className="space-y-4">
+              <form onSubmit={handleCheckout} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" required />
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" required />
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Shipping Address</Label>
-                  <Input id="address" required />
+                  <Input
+                    id="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="city">City</Label>
-                    <Input id="city" required />
+                    <Input
+                      id="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="postal">Postal Code</Label>
-                    <Input id="postal" required />
+                    <Input
+                      id="postal"
+                      value={formData.postal}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                 </div>
+
+                <Button
+                  variant={"default"}
+                  className="w-full cursor-pointer"
+                  type="submit"
+                  disabled={isDisabled}
+                >
+                  {loading ? (
+                    <Loader className="animate-spin !size-5" />
+                  ) : (
+                    "Checkout"
+                  )}
+                </Button>
               </form>
             </CardContent>
 
-            <CardFooter className="flex flex-col">
+            {/* <CardFooter className="flex flex-col">
               <Button
                 variant={"default"}
                 onClick={handleCheckout}
                 className="cursor-pointer"
               >
                 Checkout
-              </Button>
-              {/* <StripePaymentModal
+              </Button> */}
+            {/* <StripePaymentModal
                 handleSubmit={handleSubmit}
                 amount={total}
                 formData={formData}
               /> */}
-            </CardFooter>
+            {/* </CardFooter> */}
           </Card>
         </motion.div>
       )}

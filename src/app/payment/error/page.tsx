@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   XCircle,
   AlertTriangle,
-  RefreshCw,
+  // RefreshCw,
   HelpCircle,
   Home,
 } from "lucide-react";
@@ -27,7 +26,7 @@ import {
 } from "@/components/ui/accordion";
 
 export default function PaymentErrorPage() {
-  const [isRetrying, setIsRetrying] = useState(false);
+  // const [isRetrying, setIsRetrying] = useState(false);
 
   // Mock error data - in a real app, this would come from the payment processor
   const error = {
@@ -43,15 +42,15 @@ export default function PaymentErrorPage() {
     timestamp: new Date().toISOString(),
   };
 
-  const handleRetry = () => {
-    setIsRetrying(true);
-    // Simulate a retry process
-    setTimeout(() => {
-      setIsRetrying(false);
-      // In a real app, you would redirect to the payment page
-      // router.push("/checkout")
-    }, 2000);
-  };
+  // const handleRetry = () => {
+  //   setIsRetrying(true);
+  //   // Simulate a retry process
+  //   setTimeout(() => {
+  //     setIsRetrying(false);
+  //     // In a real app, you would redirect to the payment page
+  //     // router.push("/checkout")
+  //   }, 2000);
+  // };
 
   return (
     <div className="container max-w-3xl mx-auto py-12 md:py-20">
@@ -114,12 +113,12 @@ export default function PaymentErrorPage() {
                 </span>
                 <span className="font-mono text-sm">{error.transactionId}</span>
               </div>
-              <div className="flex justify-between items-center">
+              {/* <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Timestamp</span>
                 <span className="text-sm">
                   {new Date(error.timestamp).toLocaleString()}
                 </span>
-              </div>
+              </div> */}
             </div>
 
             <Separator />
@@ -157,7 +156,7 @@ export default function PaymentErrorPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col sm:flex-row gap-3 pt-2 pb-6">
-          <Button
+          {/* <Button
             onClick={handleRetry}
             disabled={isRetrying}
             className="w-full sm:w-auto gap-2 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 transition-all"
@@ -173,13 +172,13 @@ export default function PaymentErrorPage() {
                 Try Again
               </>
             )}
-          </Button>
+          </Button> */}
           <Button
             asChild
             variant="outline"
             className="w-full sm:w-auto gap-2 rounded-full"
           >
-            <Link href="/help">
+            <Link href="#">
               <HelpCircle className="h-4 w-4" />
               Contact Support
             </Link>

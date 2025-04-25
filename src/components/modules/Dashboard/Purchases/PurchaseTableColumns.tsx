@@ -12,7 +12,7 @@ import Image from "next/image";
 
 export const getPurchaseColumns = (): ColumnDef<ITransaction>[] => [
   {
-    accessorKey: "itemID.images",
+    accessorKey: "transactionInfo.itemID.images",
     header: "Product Image",
     cell: ({ row }) => {
       const image = row.original.itemID.images as string[];

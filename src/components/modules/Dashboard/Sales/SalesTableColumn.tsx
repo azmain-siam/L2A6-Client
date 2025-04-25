@@ -34,12 +34,12 @@ export const getSalesColumns = (): ColumnDef<ITransaction>[] => [
     header: "Title",
   },
   {
-    accessorKey: "sellerID.name",
-    header: "Seller",
+    accessorKey: "buyerID.name",
+    header: "Buyer",
   },
   {
-    accessorKey: "sellerID.email",
-    header: "Seller Email",
+    accessorKey: "buyerID.email",
+    header: "Buyer Email",
   },
   {
     accessorKey: "status",

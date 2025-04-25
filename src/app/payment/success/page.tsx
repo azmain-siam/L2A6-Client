@@ -3,17 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle, ShoppingBag, Home, Package } from "lucide-react";
+import { CheckCircle, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 import { useRouter, useSearchParams } from "next/navigation";
 import { completeTransaction } from "@/services/TransactionService";
 import { toast } from "sonner";
@@ -26,27 +18,6 @@ export default function PaymentSuccessPage() {
   const transactionId = searchParams.get("transactionId");
 
   // Mock transaction data - in a real app, this would come from the payment processor
-  const transaction = {
-    id:
-      "TRX-" +
-      Math.floor(Math.random() * 1000000)
-        .toString()
-        .padStart(6, "0"),
-    amount: "$235.50",
-    date: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-    paymentMethod: "Credit Card (•••• 4242)",
-    items: [
-      { name: "Vintage Camera", price: "$150.00" },
-      { name: "Camera Lens", price: "$85.50" },
-    ],
-    seller: "Emma Wilson",
-  };
 
   // Countdown effect for auto-redirect
   useEffect(() => {
@@ -95,14 +66,29 @@ export default function PaymentSuccessPage() {
         <h1 className="text-3xl font-bold tracking-tight mb-2">
           Payment Successful!
         </h1>
-        <p className="text-muted-foreground max-w-md">
+        <p className="text-muted-foreground max-w-lg">
           Your payment has been processed successfully. We have sent a
-          confirmation email with all the details.
+          confirmation email with all the details. Redirecting to purchase
+          history in<span className="ml-1 text-sm">({countdown})</span>...
         </p>
+
+        <Button
+          asChild
+          variant="outline"
+          className="w-full sm:w-auto gap-2 rounded-full mt-5"
+        >
+          <Link href="/dashboard">
+            <Home className="h-4 w-4" />
+            Go to Dashboard
+            {countdown > 0 && (
+              <span className="ml-1 text-xs">({countdown})</span>
+            )}
+          </Link>
+        </Button>
       </motion.div>
 
       <Card className="border-0 shadow-lg overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-green-500/10 to-green-600/10 pb-4">
+        {/* <CardHeader className="bg-gradient-to-r from-green-500/10 to-green-600/10 pb-4">
           <div className="flex justify-between items-center">
             <CardTitle className="text-xl flex items-center gap-2">
               <ShoppingBag className="h-5 w-5 text-green-600" />
@@ -123,7 +109,7 @@ export default function PaymentSuccessPage() {
                 <span className="text-sm text-muted-foreground">
                   Transaction ID
                 </span>
-                {/* <span className="font-medium">{transaction.id}</span> */}
+                <span className="font-medium">{transaction.id}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Date</span>
@@ -167,8 +153,8 @@ export default function PaymentSuccessPage() {
               </p>
             </div>
           </div>
-        </CardContent>
-        <CardFooter className="flex flex-col sm:flex-row gap-3 pt-2 pb-6">
+        </CardContent> */}
+        {/* <CardFooter className="flex flex-col sm:flex-row gap-3 pt-2 pb-6">
           <Button asChild className="w-full sm:w-auto gap-2 rounded-full">
             <Link href="/dashboard/purchase-history">
               <Package className="h-4 w-4" />
@@ -188,10 +174,10 @@ export default function PaymentSuccessPage() {
               )}
             </Link>
           </Button>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
 
-      <div className="mt-8 text-center">
+      <div className="mt-0 text-center">
         <p className="text-sm text-muted-foreground mb-4">
           Having trouble or questions about your order?
         </p>
