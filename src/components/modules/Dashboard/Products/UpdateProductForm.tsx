@@ -41,6 +41,7 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
       description: listing?.description || "",
       price: listing?.price || undefined,
       condition: listing?.condition || "",
+      images: listing.images[0],
     },
   });
   const {
@@ -59,15 +60,16 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
         ...data,
         price: Number(data.price),
         userId: user?.id,
+        images: [data.images[0]], // ✅ Ensure it's a single image URL in an array
       };
 
       // console.log(modifiedData);
       const formData = new FormData();
       formData.append("data", JSON.stringify(modifiedData));
 
-      images.forEach((image) => {
-        formData.append("file", image as File);
-      });
+      // images.forEach((image) => {
+      //   formData.append("file", image as File);
+      // });
 
       const { data: response } = await axios.put(
         `/listings/${listing._id}`,
@@ -181,14 +183,32 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
           )}
         />
 
-        <div>
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image URL</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="https://example.com/image.jpg"
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange([e.target.value])}
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* <div>
           <Label className="mb-2">Images</Label>
           <ImageUpload
             previewImages={previewImages}
             setPreviewImages={setPreviewImages}
             setImages={setImages}
           />
-        </div>
+        </div> */}
 
         <Button
           disabled={isSubmitting}

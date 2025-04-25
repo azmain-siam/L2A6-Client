@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import ImageUpload from "../shared/ImageUpload";
+// import ImageUpload from "../shared/ImageUpload";
 import {
   Select,
   SelectContent,
@@ -41,8 +41,8 @@ export default function ProductForm() {
   } = form;
   const axios = useAxios();
   const { user } = useUser();
-  const [images, setImages] = useState<File[] | []>([]);
-  const [previewImages, setPreviewImages] = useState<string[] | []>([]);
+  // const [images, setImages] = useState<File[] | []>([]);
+  // const [previewImages, setPreviewImages] = useState<string[] | []>([]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -50,23 +50,21 @@ export default function ProductForm() {
         ...data,
         price: Number(data.price),
         userId: user?.id,
+        images: [data.images[0]], // ✅ Ensure it's a single image URL in an array
       };
+
       const formData = new FormData();
       formData.append("data", JSON.stringify(modifiedData));
 
-      images.forEach((image) => {
-        formData.append("file", image as File);
-      });
       const { data: response } = await axios.post("/listings", formData);
-      // console.log(response, "response");
+
       if (response.status === 201) {
         toast.success(response.message);
         reset();
-        setImages([]);
-        setPreviewImages([]);
+        // setImages([]);
+        // setPreviewImages([]);
       }
     } catch (error: any) {
-      // console.log(error);
       if (error?.status === 400) {
         toast.error(error?.response?.data?.message);
       } else {
@@ -164,14 +162,33 @@ export default function ProductForm() {
           )}
         />
 
-        <div>
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image URL</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="https://example.com/image.jpg"
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange([e.target.value])}
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* <div>
           <Label className="mb-2">Images</Label>
           <ImageUpload
             previewImages={previewImages}
             setPreviewImages={setPreviewImages}
             setImages={setImages}
           />
-        </div>
+        </div> */}
 
         <Button
           disabled={isSubmitting}
