@@ -1,5 +1,7 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { WarningModal } from "@/components/ui/core/WarningModal";
 import { IListing } from "@/types/listing";
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,11 +11,13 @@ import Link from "next/link";
 
 type ListingColumnProps = {
   onDelete: (id: string) => void;
+  markAsSold: (id: string) => void;
   // onEdit: (listing: IListing) => void;
 };
 
 export const getListingColumns = ({
   onDelete,
+  markAsSold,
 }: ListingColumnProps): ColumnDef<IListing>[] => [
   {
     accessorKey: "images",
@@ -44,6 +48,19 @@ export const getListingColumns = ({
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      return (
+        <>
+          <Badge
+            className="capitalize"
+            variant={status === "available" ? "green" : "default"}
+          >
+            {status}
+          </Badge>
+        </>
+      );
+    },
   },
   {
     accessorKey: "_id",
@@ -59,6 +76,15 @@ export const getListingColumns = ({
             />
           </Link>
           <WarningModal id={listing._id} handleDelete={onDelete} />
+          {listing.status === "available" && (
+            <Button
+              onClick={() => markAsSold(listing._id)}
+              className="cursor-pointer hover:bg-gray-200 text-primary hover:text-primary"
+              variant={"outline"}
+            >
+              Mark as sold
+            </Button>
+          )}
         </div>
       );
     },
