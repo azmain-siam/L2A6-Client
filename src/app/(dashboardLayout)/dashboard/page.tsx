@@ -19,7 +19,6 @@ import {
   DollarSign,
   Package,
   ShoppingCart,
-  TrendingUp,
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";

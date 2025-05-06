@@ -99,7 +99,7 @@ export default function UpdateProductForm({ listing }: { listing: IListing }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 max-w-xl mx-auto border rounded-md p-5"
+        className="space-y-5 w-full mx-auto border rounded-md p-5"
       >
         <FormField
           control={form.control}
