@@ -39,7 +39,6 @@ const condition = ["All Condition", "Used", "Refurbished", "New"];
 export default function AllListings({ products }: { products: IListing[] }) {
   const searchParams = useSearchParams();
 
-  // const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] =
     useState<IListing[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,8 +52,9 @@ export default function AllListings({ products }: { products: IListing[] }) {
   useEffect(() => {
     const handleSetCategory = () => {
       const category = searchParams.get("categories");
-
-      setSelectedCategory(category as string);
+      if (category) {
+        setSelectedCategory(category as string);
+      }
     };
 
     handleSetCategory();
@@ -83,7 +83,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
     if (selectedCategory !== "All Category") {
       filtered = filtered.filter(
         (product) =>
-          product?.category?.toLowerCase() === selectedCategory.toLowerCase()
+          product?.category?.toLowerCase() === selectedCategory?.toLowerCase()
       );
     }
 

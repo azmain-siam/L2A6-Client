@@ -11,7 +11,6 @@ import { toast } from "sonner";
 
 const ProductCard = ({ product }: { product: IListing }) => {
   const { user } = useUser();
-
   const handleAddToCart = async () => {
     if (!user) {
       toast.warning("Please login first!");
@@ -83,7 +82,12 @@ const ProductCard = ({ product }: { product: IListing }) => {
             <Button variant="default" size="sm" asChild>
               <Link href={`/products/${product._id}`}>View Details</Link>
             </Button>
-            <Button onClick={handleAddToCart} variant="outline" size="sm">
+            <Button
+              disabled={product.userId._id === user?.id}
+              onClick={handleAddToCart}
+              variant="outline"
+              size="sm"
+            >
               {/* <Link href={`/products/${product._id}`}>View Details</Link> */}
               <ShoppingCartIcon />
             </Button>

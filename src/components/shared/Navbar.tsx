@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -37,6 +37,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/UserContext";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { IListing } from "@/types/listing";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -45,6 +46,26 @@ export default function Navbar() {
   const isActive = (path: string) => {
     return pathname === path;
   };
+
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<IListing[] | []>([]);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (query.trim()) {
+        setIsLoading(true);
+        fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings?search=${query}`)
+          .then((res) => res.json())
+          .then((data) => setResults(data.data))
+          .finally(() => setLoading(false));
+      } else {
+        setResults([]);
+      }
+    }, 500); // debounce 500ms
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   const { user, setIsLoading } = useUser();
 
@@ -77,9 +98,23 @@ export default function Navbar() {
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search products..."
                     className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
                   />
+
+                  {query && results.length > 0 && (
+                    <ul className="absolute z-50 top-full bg-white shadow rounded mt-1 w-full max-h-60 overflow-y-auto">
+                      {results.map((item: IListing) => (
+                        <Link key={item._id} href={`/products/${item._id}`}>
+                          <li className="p-2 hover:bg-orange-100 cursor-pointer">
+                            {item?.title}
+                          </li>
+                        </Link>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 <nav className="flex flex-col gap-4">
                   <Link
@@ -186,15 +221,24 @@ export default function Navbar() {
                     Sell
                   </Link>
                 </nav>
-                <div className="mt-4 flex flex-col gap-2">
-                  <Button className="w-full bg-orange-500 hover:bg-orange-600">
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Login
+                {!user ? (
+                  <div className="mt-4 flex flex-col gap-2">
+                    <Link href={"/auth"}>
+                      <Button className="w-full bg-orange-500 hover:bg-orange-600">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        Login
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={handleLogout}
+                    className="w-full bg-orange-500 hover:bg-orange-600"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
                   </Button>
-                  <Button variant="outline" className="w-full">
-                    Register
-                  </Button>
-                </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>
@@ -343,27 +387,40 @@ export default function Navbar() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          {isSearchOpen ? (
-            <div className="relative hidden md:flex">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-[300px] bg-background pl-8 pr-12"
-                autoFocus
-                onBlur={() => setIsSearchOpen(false)}
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0"
-                onClick={() => setIsSearchOpen(false)}
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close search</span>
-              </Button>
-            </div>
-          ) : (
+          {/* {isSearchOpen ? ( */}
+          <div className="relative hidden md:flex">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products..."
+              className="w-[300px] bg-background pl-8 pr-12"
+              autoFocus
+              // onBlur={() => setIsSearchOpen(false)}
+            />
+            {query && results.length > 0 && (
+              <ul className="absolute z-50 top-full bg-white shadow rounded mt-1 w-full max-h-60 overflow-y-auto">
+                {results.map((item: IListing) => (
+                  <Link key={item._id} href={`/products/${item._id}`}>
+                    <li className="p-2 hover:bg-orange-100 cursor-pointer">
+                      {item?.title}
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 top-0"
+              onClick={() => setQuery("")}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close search</span>
+            </Button>
+          </div>
+          {/* ) : (
             <Button
               variant="ghost"
               size="icon"
@@ -373,7 +430,7 @@ export default function Navbar() {
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
             </Button>
-          )}
+          )} */}
           {/* <Button variant="ghost" size="icon" className="hidden md:flex">
             <Heart className="h-5 w-5" />
             <span className="sr-only">Wishlist</span>
@@ -441,17 +498,19 @@ export default function Navbar() {
             </DropdownMenu>
           )}
 
-          <Button variant="ghost" size="icon" className="md:hidden">
+          {/* <Button variant="ghost" size="icon" className="md:hidden">
             <Search className="h-5 w-5" />
             <span className="sr-only">Search</span>
-          </Button>
-          <Button variant="ghost" size="icon" className="md:hidden relative">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-medium text-white">
-              0
-            </span>
-            <span className="sr-only">Cart</span>
-          </Button>
+          </Button> */}
+          <Link href={"/cart"}>
+            <Button variant="ghost" size="icon" className="md:hidden relative">
+              <ShoppingCart className="h-5 w-5" />
+              {/* <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-medium text-white">
+                0
+              </span> */}
+              <span className="sr-only">Cart</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </header>
