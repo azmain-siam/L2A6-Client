@@ -19,7 +19,6 @@ import {
   DollarSign,
   Package,
   ShoppingCart,
-  TrendingUp,
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
@@ -193,120 +192,6 @@ export default function DashboardPage() {
                           ? "Yesterday"
                           : "3d ago"}
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>Popular Categories</CardTitle>
-                <CardDescription>
-                  Categories with the most activity.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {["Furniture", "Electronics", "Home Decor", "Clothing"].map(
-                    (category, i) => (
-                      <div
-                        key={category}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div
-                            className={`h-2 w-2 rounded-full ${
-                              i === 0
-                                ? "bg-orange-500"
-                                : i === 1
-                                ? "bg-blue-500"
-                                : i === 2
-                                ? "bg-green-500"
-                                : "bg-purple-500"
-                            }`}
-                          />
-                          <span>{category}</span>
-                        </div>
-                        <span className="text-sm text-muted-foreground">
-                          {100 - i * 20}%
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending Items</CardTitle>
-                <CardDescription>Items with the most views.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[
-                    "Vintage Leather Sofa",
-                    "DSLR Camera Kit",
-                    "Mid-Century Desk",
-                    "Designer Watch",
-                  ].map((item, i) => (
-                    <div key={item} className="flex items-center gap-4">
-                      <div className="flex h-8 w-8 items-center justify-center rounded bg-muted">
-                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          {item}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {120 - i * 25} views
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Upcoming Payments</CardTitle>
-                <CardDescription>
-                  Payments scheduled to be processed.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[
-                    {
-                      item: "Antique Desk Lamp",
-                      amount: "$85.00",
-                      date: "Today",
-                    },
-                    {
-                      item: "Bluetooth Headphones",
-                      amount: "$120.00",
-                      date: "Tomorrow",
-                    },
-                    {
-                      item: "Ceramic Vase Set",
-                      amount: "$45.00",
-                      date: "May 15",
-                    },
-                  ].map((payment) => (
-                    <div
-                      key={payment.item}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          {payment.item}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {payment.date}
-                        </p>
-                      </div>
-                      <div className="font-medium">{payment.amount}</div>
                     </div>
                   ))}
                 </div>

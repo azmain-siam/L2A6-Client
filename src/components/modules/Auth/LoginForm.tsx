@@ -37,6 +37,10 @@ const LoginForm = ({
 }) => {
   const form = useForm({
     resolver: zodResolver(loginValidationSchema),
+    defaultValues: {
+      email: "user@gmail.com",
+      password: "123456",
+    },
   });
   const { handleUser } = useUser();
   const router = useRouter();
@@ -97,13 +101,15 @@ const LoginForm = ({
           </div>
 
           <div className="space-y-2">
+            <h4 className="text-red-500 font-medium text-xs">
+              For testing purposes, credentials are pre-filled automatically.
+            </h4>
             {/* <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   <Link href="#" className="text-xs text-primary hover:underline">
                     Forgot password?
                   </Link>
                 </div> */}
-
             <FormField
               control={form.control}
               name="email"
@@ -126,7 +132,6 @@ const LoginForm = ({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="password"
