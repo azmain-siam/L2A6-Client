@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -12,6 +12,15 @@ import {
   ChevronDown,
   LogIn,
   LogOut,
+  Sofa,
+  Tv,
+  Shirt,
+  Home,
+  Book,
+  BikeIcon,
+  Watch,
+  Music,
+  ChevronRight,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -45,7 +54,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-primary-second/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex items-center gap-2 md:gap-6">
           <Sheet>
@@ -193,6 +202,8 @@ export default function Navbar() {
               </div>
             </SheetContent>
           </Sheet>
+
+          {/* <-- Desktop --> */}
           <Link href="/" className="flex items-center gap-2">
             <Package className="h-6 w-6 text-orange-500" />
             <span className="text-xl font-bold">SwapSpot</span>
@@ -218,35 +229,87 @@ export default function Navbar() {
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-[200px]">
+              <DropdownMenuContent
+                align="start"
+                className="w-[220px] *:py-2 *:text-sm"
+              >
                 <DropdownMenuItem>
-                  <Link href="/categories/furniture" className="flex w-full">
-                    Furniture
+                  <Link
+                    href="/categories/furniture"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Sofa /> Furniture
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/categories/electronics" className="flex w-full">
-                    Electronics
+                  <Link
+                    href="/categories/electronics"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Tv /> Electronics
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/categories/clothing" className="flex w-full">
+                  <Link
+                    href="/categories/clothing"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Shirt />
                     Clothing
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/categories/home-decor" className="flex w-full">
+                  <Link
+                    href="/categories/home-decor"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Home />
                     Home Decor
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/categories/books" className="flex w-full">
+                  <Link
+                    href="/categories/books"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Book />
                     Books
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/categories/all" className="flex w-full">
-                    View All Categories
+                  <Link
+                    href="/categories/books"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <BikeIcon />
+                    Sports
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="/categories/books"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Watch />
+                    Accessories
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="/categories/books"
+                    className="flex items-center gap-1.5 w-full"
+                  >
+                    <Music />
+                    Music
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="!p-0" />
+                <DropdownMenuItem>
+                  <Link
+                    href="/categories/all"
+                    className="flex justify-between items-center gap-1.5 w-full"
+                  >
+                    View All Categories <ChevronRight />
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
