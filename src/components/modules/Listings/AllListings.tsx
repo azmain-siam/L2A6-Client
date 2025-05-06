@@ -50,13 +50,21 @@ export default function AllListings({ products }: { products: IListing[] }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
+  useEffect(() => {
+    const handleSetCategory = () => {
+      const category = searchParams.get("categories");
+
+      setSelectedCategory(category as string);
+    };
+
+    handleSetCategory();
+  }, [searchParams]);
+
   // Filter products based on all criteria
   useEffect(() => {
     if (!products) return;
     let filtered = [...products];
-    const category = searchParams.get("categories");
 
-    setSelectedCategory(category as string);
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter((product) =>
