@@ -6,6 +6,7 @@ export interface IListing {
   description: string;
   price: number;
   condition: string;
+  category: string;
   images: string[];
   userId: ILoggedInUser;
   status: "available" | "sold";

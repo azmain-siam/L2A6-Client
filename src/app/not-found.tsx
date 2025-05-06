@@ -1,6 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
-import { Package, Home, Search, ArrowLeft } from "lucide-react";
+import { Package, Home, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -23,7 +22,7 @@ export default function NotFound() {
               Page not found
             </h1>
             <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Oops! The page you're looking for seems to have wandered off. It
+              Oops! The page you&apos;re looking for seems to have wandered off. It
               might be sold out or never existed.
             </p>
           </div>
@@ -93,7 +92,7 @@ export default function NotFound() {
                       href="/#deals"
                       className="hover:text-orange-500 hover:underline"
                     >
-                      Today's Deals
+                      Today&apos;s Deals
                     </Link>
                   </li>
                   <li>

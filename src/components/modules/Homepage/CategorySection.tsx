@@ -103,9 +103,9 @@ export default function CategorySection() {
                 >
                   <div className="mb-4">{category.icon}</div>
                   <h3 className="font-semibold text-center">{category.name}</h3>
-                  <p className="text-sm text-muted-foreground text-center">
+                  {/* <p className="text-sm text-muted-foreground text-center">
                     {category.count} items
-                  </p>
+                  </p> */}
                 </CardContent>
               </Card>
             </Link>

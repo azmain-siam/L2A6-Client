@@ -7,3 +7,8 @@ export interface ITransaction {
   itemID: IListing;
   status: "pending" | "completed";
 }
+
+export type Transaction = {
+  transactionInfo: ITransaction[];
+  status: "pending" | "completed";
+};

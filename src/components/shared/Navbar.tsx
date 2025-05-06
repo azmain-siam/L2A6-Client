@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -107,7 +107,7 @@ export default function Navbar() {
                     <DropdownMenuContent align="start" className="w-[200px]">
                       <DropdownMenuItem>
                         <Link
-                          href="/categories/furniture"
+                          href="/products?categories=furniture"
                           className="flex w-full"
                         >
                           Furniture
@@ -115,7 +115,7 @@ export default function Navbar() {
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Link
-                          href="/categories/electronics"
+                          href="/products?categories=electronics"
                           className="flex w-full"
                         >
                           Electronics
@@ -123,7 +123,7 @@ export default function Navbar() {
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Link
-                          href="/categories/clothing"
+                          href="/products?categories=clothing"
                           className="flex w-full"
                         >
                           Clothing
@@ -131,19 +131,25 @@ export default function Navbar() {
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Link
-                          href="/categories/home-decor"
+                          href="/products?categories=home-decor"
                           className="flex w-full"
                         >
                           Home Decor
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Link href="/categories/books" className="flex w-full">
+                        <Link
+                          href="/products?categories=books"
+                          className="flex w-full"
+                        >
                           Books
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Link href="/categories/all" className="flex w-full">
+                        <Link
+                          href="/products?categories=all"
+                          className="flex w-full"
+                        >
                           View All Categories
                         </Link>
                       </DropdownMenuItem>
@@ -170,24 +176,14 @@ export default function Navbar() {
                     Deals
                   </Link>
                   <Link
-                    href="/sell"
+                    href="/dashboard/add-listing"
                     className={`flex items-center gap-2 text-lg font-medium ${
-                      isActive("/sell")
+                      isActive("/dashboard/add-listing")
                         ? "text-orange-500"
                         : "text-foreground/60 hover:text-foreground"
                     }`}
                   >
                     Sell
-                  </Link>
-                  <Link
-                    href="/about"
-                    className={`flex items-center gap-2 text-lg font-medium ${
-                      isActive("/about")
-                        ? "text-orange-500"
-                        : "text-foreground/60 hover:text-foreground"
-                    }`}
-                  >
-                    About
                   </Link>
                 </nav>
                 <div className="mt-4 flex flex-col gap-2">
@@ -235,7 +231,7 @@ export default function Navbar() {
               >
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/furniture"
+                    href="/products?categories=furniture"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Sofa /> Furniture
@@ -243,7 +239,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/electronics"
+                    href="/products?categories=electronics"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Tv /> Electronics
@@ -251,7 +247,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/clothing"
+                    href="/products?categories=clothing"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Shirt />
@@ -260,7 +256,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/home-decor"
+                    href="/products?categories=home-decor"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Home />
@@ -269,7 +265,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/books"
+                    href="/products?categories=books"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Book />
@@ -278,7 +274,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/books"
+                    href="/products?categories=books"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <BikeIcon />
@@ -287,7 +283,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/books"
+                    href="/products?categories=books"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Watch />
@@ -296,7 +292,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/books"
+                    href="/products?categories=books"
                     className="flex items-center gap-1.5 w-full"
                   >
                     <Music />
@@ -306,7 +302,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator className="!p-0" />
                 <DropdownMenuItem>
                   <Link
-                    href="/categories/all"
+                    href="/products?categories=all"
                     className="flex justify-between items-center gap-1.5 w-full"
                   >
                     View All Categories <ChevronRight />
@@ -335,9 +331,9 @@ export default function Navbar() {
               Deals
             </Link>
             <Link
-              href="/sell"
+              href="/dashboard/add-listing"
               className={`text-sm font-medium ${
-                isActive("/sell")
+                isActive("/dashboard/add-listing")
                   ? "text-orange-500"
                   : "text-foreground/60 hover:text-foreground"
               }`}

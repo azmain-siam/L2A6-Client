@@ -46,7 +46,7 @@ const ProductCard = ({ product }: { product: IListing }) => {
       // viewport={{ once: true }}
       className="group shadow-md hover:shadow-lg rounded-lg dark:border flex flex-col"
     >
-      <div className="relative h-[250px] w-full overflow-hidden rounded-lg rounded-b-none bg-gray-100">
+      <div className="relative h-[200px] w-full overflow-hidden rounded-lg rounded-b-none bg-gray-100">
         <Image
           src={
             product.images[0] ||

@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

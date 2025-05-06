@@ -22,14 +22,26 @@ export interface IProduct {
   image: string;
 }
 
-const categories = ["All Condition", "Used", "Refurbished", "New"];
+const categories = [
+  "All Category",
+  "Furniture",
+  "Electronics",
+  "Clothing",
+  "Home Decor",
+  "Books",
+  "Sports",
+  "Accessories",
+  "Music",
+];
+const condition = ["All Condition", "Used", "Refurbished", "New"];
 
 export default function AllListings({ products }: { products: IListing[] }) {
   // const [products, setProducts] = useState<IProduct[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] =
     useState<IListing[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Condition");
+  const [selectedCategory, setSelectedCategory] = useState("All Category");
+  const [selectedCondtion, setSelectedCondition] = useState("All Condition");
   const [priceRange, setPriceRange] = useState([0, 50000]);
   const [showInStock, setShowInStock] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -48,9 +60,16 @@ export default function AllListings({ products }: { products: IListing[] }) {
     }
 
     // Category filter
-    if (selectedCategory !== "All Condition") {
+    if (selectedCondtion !== "All Condition") {
       filtered = filtered.filter(
-        (product) => product.condition === selectedCategory
+        (product) => product.condition === selectedCondtion
+      );
+    }
+
+    // Category filter
+    if (selectedCategory !== "All Category") {
+      filtered = filtered.filter(
+        (product) => product.category === selectedCategory
       );
     }
 
@@ -68,7 +87,10 @@ export default function AllListings({ products }: { products: IListing[] }) {
     // Update active filters
     const newActiveFilters: string[] = [];
 
-    if (selectedCategory !== "All Condition")
+    if (selectedCondtion !== "All Condition")
+      newActiveFilters.push(selectedCondtion);
+
+    if (selectedCategory !== "All Category")
       newActiveFilters.push(selectedCategory);
 
     if (showInStock) newActiveFilters.push("In Stock Only");
@@ -79,7 +101,14 @@ export default function AllListings({ products }: { products: IListing[] }) {
     setActiveFilters(newActiveFilters);
 
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategory, priceRange, showInStock, products]);
+  }, [
+    searchTerm,
+    selectedCondtion,
+    priceRange,
+    showInStock,
+    products,
+    selectedCategory,
+  ]);
 
   const removeFilter = (filter: string) => {
     if (filter === "In Stock Only") {
@@ -87,7 +116,8 @@ export default function AllListings({ products }: { products: IListing[] }) {
     } else if (filter.includes("$")) {
       setPriceRange([0, 50000]);
     } else {
-      setSelectedCategory("All Condition");
+      setSelectedCondition("All Condition");
+      setSelectedCategory("All Category");
     }
   };
 
@@ -117,7 +147,10 @@ export default function AllListings({ products }: { products: IListing[] }) {
             isFiltersOpen={isFiltersOpen}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
+            selectedCondtion={selectedCondtion}
+            setSelectedCondition={setSelectedCondition}
             categories={categories}
+            condition={condition}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
             showInStock={showInStock}
