@@ -161,6 +161,31 @@ export default function ProductForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -208,3 +233,15 @@ export default function ProductForm() {
     </Form>
   );
 }
+
+const categories = [
+  "All Category",
+  "Furniture",
+  "Electronics",
+  "Clothing",
+  "Home Decor",
+  "Books",
+  "Sports",
+  "Accessories",
+  "Music",
+];
