@@ -41,7 +41,8 @@ import { IListing } from "@/types/listing";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { user, setIsLoading } = useUser();
+  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -49,12 +50,13 @@ export default function Navbar() {
 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<IListing[] | []>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (query.trim()) {
-        setIsLoading(true);
+        setLoading(true);
         fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings?search=${query}`)
           .then((res) => res.json())
           .then((data) => setResults(data.data))
@@ -66,8 +68,6 @@ export default function Navbar() {
 
     return () => clearTimeout(timeout);
   }, [query]);
-
-  const { user, setIsLoading } = useUser();
 
   const handleLogout = () => {
     logout();
@@ -396,7 +396,7 @@ export default function Navbar() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products..."
               className="w-[300px] bg-background pl-8 pr-12"
-              autoFocus
+              // autoFocus
               // onBlur={() => setIsSearchOpen(false)}
             />
             {query && results.length > 0 && (
