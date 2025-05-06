@@ -24,8 +24,6 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
   const [total, setTotal] = useState(0);
   const { user } = useUser();
 
-  console.log(user);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,7 +56,9 @@ const OrderSummary = ({ cartItems }: { cartItems: IListing[] }) => {
       setTotal(subtotal + taxAmount);
     };
 
-    calculateAmount();
+    if (cartItems.length > 0) {
+      calculateAmount();
+    }
   }, [cartItems]);
   const [loading, setLoading] = useState(false);
 

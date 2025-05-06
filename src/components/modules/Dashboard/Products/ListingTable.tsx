@@ -28,7 +28,6 @@ const ListingTable = ({ data }: { data: IListing[] }) => {
     try {
       const res = await updateListingStatus(id);
 
-      console.log(res);
       if (res.success) {
         toast.success(res.message);
       } else {

@@ -49,7 +49,6 @@ const FilterSidebar = ({
   setSelectedCondition,
   selectedCondtion,
 }: IFilterSidebarProps) => {
-  console.log(selectedCategory);
   return (
     <div className="font-primary">
       <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
