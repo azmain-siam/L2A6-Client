@@ -10,7 +10,7 @@ const Hero = () => {
     <section className="w-full py-16 md:py-24 lg:py-24 relative overflow-hidden">
       <div className="absolute inset-0 pattern-grid opacity-30"></div>
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10"></div>
-      <div className="container max-w-7xl mx-auto relative">
+      <div className="container max-w-7xl mx-auto relative px-4">
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
           <div className="flex flex-col justify-center space-y-4 animate-fade-up">
             <div className="space-y-2">

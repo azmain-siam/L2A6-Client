@@ -18,8 +18,8 @@ const Featured = async () => {
   }
 
   return (
-    <section className="w-full py-16 md:py-24">
-      <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+    <section id="deals" className="w-full py-16 md:py-24">
+      <div className="container max-w-7xl px-4 mx-auto">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
           <Badge
             className="bg-secondary hover:bg-secondary/80"

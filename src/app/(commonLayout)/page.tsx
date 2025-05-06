@@ -1,3 +1,4 @@
+import CategorySection from "@/components/modules/Homepage/CategorySection";
 import CtaSection from "@/components/modules/Homepage/CtaSection";
 import Featured from "@/components/modules/Homepage/Featured";
 import Hero from "@/components/modules/Homepage/Hero";
@@ -9,6 +10,7 @@ const Homepage = () => {
     <div className="md:-mt-16">
       <Hero />
       <Trust />
+      <CategorySection />
       <Featured />
       <Instructions />
       <CtaSection />

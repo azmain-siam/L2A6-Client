@@ -67,7 +67,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
 
     // Update active filters
     const newActiveFilters: string[] = [];
-    
+
     if (selectedCategory !== "All Condition")
       newActiveFilters.push(selectedCategory);
 
@@ -96,10 +96,8 @@ export default function AllListings({ products }: { products: IListing[] }) {
       {/* Header and Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Our Products</h1>
-          <p className="text-gray-600">
-            Browse our collection of premium stationery
-          </p>
+          <h1 className="text-3xl font-bold mb-2">Products</h1>
+          <p className="text-gray-600">Browse products to buy</p>
         </div>
 
         <div className="flex gap-2">
@@ -176,7 +174,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {filteredProducts?.map((product) => (
               <ProductCard key={product._id} product={product} />
