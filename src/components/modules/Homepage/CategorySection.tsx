@@ -86,7 +86,7 @@ export default function CategorySection() {
               Discover thousands of items across our popular categories
             </p>
           </div>
-          <Link href="/categories">
+          <Link href="/products">
             <Button variant="outline" className="gap-1">
               View All Categories
               <ChevronRight className="h-4 w-4" />
@@ -96,7 +96,10 @@ export default function CategorySection() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {categories.map((category) => (
-            <Link key={category.slug} href={`/categories/${category.slug}`}>
+            <Link
+              key={category.slug}
+              href={`/products?categories=${category.slug}`}
+            >
               <Card className="overflow-hidden transition-all hover:shadow-md">
                 <CardContent
                   className={`flex flex-col items-center justify-center p-6 ${category.color}`}
