@@ -7,7 +7,7 @@ import React from "react";
 const ProductPage = async () => {
   const { data: listings } = await getListings();
   return (
-    <div className="container max-w-7xl mx-auto my-3">
+    <div className="container max-w-7xl px-4 mx-auto my-3 mb-10">
       {/* <PageBanner
         title="Products"
         // subtitle="All products"

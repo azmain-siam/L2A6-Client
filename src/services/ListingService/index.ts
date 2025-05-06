@@ -83,7 +83,7 @@ export const updateListing = async (
         },
       }
     );
-
+    revalidateTag("LISTING");
     return res.json();
   } catch (error: any) {
     return Error(error);

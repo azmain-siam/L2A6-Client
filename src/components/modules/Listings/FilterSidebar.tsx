@@ -26,10 +26,13 @@ interface IFilterSidebarProps {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
   categories: string[];
+  condition: string[];
   priceRange: number[];
   setPriceRange: (range: [number, number]) => void;
   showInStock: boolean;
   setShowInStock: (inStock: boolean) => void;
+  setSelectedCondition: (condition: string) => void;
+  selectedCondtion: string;
 }
 
 const FilterSidebar = ({
@@ -38,11 +41,15 @@ const FilterSidebar = ({
   selectedCategory,
   setSelectedCategory,
   categories,
+  condition,
   priceRange,
   setPriceRange,
   showInStock,
   setShowInStock,
+  setSelectedCondition,
+  selectedCondtion,
 }: IFilterSidebarProps) => {
+  console.log(selectedCategory);
   return (
     <div className="font-primary">
       <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
@@ -61,6 +68,24 @@ const FilterSidebar = ({
           <div className="py-6 space-y-6">
             <div className="space-y-2">
               <Label>Condition</Label>
+              <Select
+                value={selectedCondtion}
+                onValueChange={setSelectedCondition}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {condition.map((con) => (
+                    <SelectItem key={con} value={con}>
+                      {con}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Categories</Label>
               <Select
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}

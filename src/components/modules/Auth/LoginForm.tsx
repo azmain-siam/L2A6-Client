@@ -52,6 +52,8 @@ const LoginForm = ({
         toast.success("Login successful");
         await handleUser();
         router.push("/");
+      } else {
+        toast.error(res.message);
       }
     } catch (error) {
       console.error(error);

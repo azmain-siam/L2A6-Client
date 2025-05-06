@@ -4,7 +4,7 @@ import { ShoppingBag } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-100 py-10 px-4">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div className="max-w-7xl px-4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         {/* Logo and Description */}
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center gap-2">

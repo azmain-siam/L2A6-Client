@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
 import { IListing } from "@/types/listing";
 import FilterSidebar from "./FilterSidebar";
+import { useSearchParams } from "next/navigation";
 
 export interface IProduct {
   _id: string;
@@ -22,18 +23,42 @@ export interface IProduct {
   image: string;
 }
 
-const categories = ["All Condition", "Used", "Refurbished", "New"];
+const categories = [
+  "All Category",
+  "Furniture",
+  "Electronics",
+  "Clothing",
+  "Home Decor",
+  "Books",
+  "Sports",
+  "Accessories",
+  "Music",
+];
+const condition = ["All Condition", "Used", "Refurbished", "New"];
 
 export default function AllListings({ products }: { products: IListing[] }) {
-  // const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const searchParams = useSearchParams();
+
   const [filteredProducts, setFilteredProducts] =
     useState<IListing[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Condition");
+  const [selectedCategory, setSelectedCategory] = useState("All Category");
+  const [selectedCondtion, setSelectedCondition] = useState("All Condition");
   const [priceRange, setPriceRange] = useState([0, 50000]);
-  const [showInStock, setShowInStock] = useState(false);
+  const [showInStock, setShowInStock] = useState(true);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  useEffect(() => {
+    const handleSetCategory = () => {
+      const category = searchParams.get("categories");
+      if (category) {
+        setSelectedCategory(category as string);
+      }
+    };
+
+    handleSetCategory();
+  }, [searchParams]);
 
   // Filter products based on all criteria
   useEffect(() => {
@@ -48,9 +73,17 @@ export default function AllListings({ products }: { products: IListing[] }) {
     }
 
     // Category filter
-    if (selectedCategory !== "All Condition") {
+    if (selectedCondtion !== "All Condition") {
       filtered = filtered.filter(
-        (product) => product.condition === selectedCategory
+        (product) => product.condition === selectedCondtion
+      );
+    }
+
+    // Category filter
+    if (selectedCategory !== "All Category") {
+      filtered = filtered.filter(
+        (product) =>
+          product?.category?.toLowerCase() === selectedCategory?.toLowerCase()
       );
     }
 
@@ -67,8 +100,11 @@ export default function AllListings({ products }: { products: IListing[] }) {
 
     // Update active filters
     const newActiveFilters: string[] = [];
-    
-    if (selectedCategory !== "All Condition")
+
+    if (selectedCondtion !== "All Condition")
+      newActiveFilters.push(selectedCondtion);
+
+    if (selectedCategory !== "All Category")
       newActiveFilters.push(selectedCategory);
 
     if (showInStock) newActiveFilters.push("In Stock Only");
@@ -79,7 +115,15 @@ export default function AllListings({ products }: { products: IListing[] }) {
     setActiveFilters(newActiveFilters);
 
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategory, priceRange, showInStock, products]);
+  }, [
+    searchTerm,
+    selectedCondtion,
+    priceRange,
+    showInStock,
+    products,
+    selectedCategory,
+    searchParams,
+  ]);
 
   const removeFilter = (filter: string) => {
     if (filter === "In Stock Only") {
@@ -87,7 +131,8 @@ export default function AllListings({ products }: { products: IListing[] }) {
     } else if (filter.includes("$")) {
       setPriceRange([0, 50000]);
     } else {
-      setSelectedCategory("All Condition");
+      setSelectedCondition("All Condition");
+      setSelectedCategory("All Category");
     }
   };
 
@@ -96,10 +141,8 @@ export default function AllListings({ products }: { products: IListing[] }) {
       {/* Header and Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Our Products</h1>
-          <p className="text-gray-600">
-            Browse our collection of premium stationery
-          </p>
+          <h1 className="text-3xl font-bold mb-2">Products</h1>
+          <p className="text-gray-600">Browse products to buy</p>
         </div>
 
         <div className="flex gap-2">
@@ -119,7 +162,10 @@ export default function AllListings({ products }: { products: IListing[] }) {
             isFiltersOpen={isFiltersOpen}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
+            selectedCondtion={selectedCondtion}
+            setSelectedCondition={setSelectedCondition}
             categories={categories}
+            condition={condition}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
             showInStock={showInStock}
@@ -176,7 +222,7 @@ export default function AllListings({ products }: { products: IListing[] }) {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {filteredProducts?.map((product) => (
               <ProductCard key={product._id} product={product} />
